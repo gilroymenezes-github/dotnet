@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using GraphQL;
 
 namespace App
@@ -11,6 +11,11 @@ namespace App
         public IEnumerable<Jedi> GetJedis()
         {
             return StarWarsDb.GetJedis();
+        }
+        [GraphQLMetadata("jedi")]
+        public Jedi GetJedi(int id)
+        {
+            return StarWarsDb.GetJedis().SingleOrDefault(j => j.Id == id);
         }
 
         [GraphQLMetadata("hello")]
@@ -26,15 +31,16 @@ namespace App
         public static IEnumerable<Jedi> GetJedis()
         {
             return new List<Jedi>() {
-                new Jedi() { Name = "Luke", Side = "Light"},
-                new Jedi() { Name = "Yoda", Side = "Light"},
-                new Jedi() { Name = "Anakin", Side = "Dark"}
+                new Jedi() { Id = 1, Name = "Luke", Side = "Light"},
+                new Jedi() { Id = 2, Name = "Yoda", Side = "Light"},
+                new Jedi() { Id = 3, Name = "Anakin", Side = "Dark"}
             };
         }
     }
 
     public class Jedi
     {
+        public int Id {get;set;}
         public string Name {get;set;}
         public string Side {get;set;}
     }

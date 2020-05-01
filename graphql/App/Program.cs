@@ -12,11 +12,13 @@ namespace App
             var schema = Schema.For(@"
             type Jedi {
                 name: String,
-                side: String
+                side: String,
+                id: ID
             }
             type Query {
                 hello: String,
-                jedis: [Jedi]
+                jedis: [Jedi],
+                jedi(id: ID): Jedi
             }",
             _=> 
             {
@@ -27,7 +29,8 @@ namespace App
             {
                 // _.Query = "{ hello }";
                 // _.Root = root;
-                _.Query = "{ jedis { name, side }}";
+                //_.Query = "{ jedis { name, side }}";
+                _.Query = "{ jedi(id: 1) { name } }";
             });
 
             Console.WriteLine(json);
