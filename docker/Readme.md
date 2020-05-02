@@ -15,3 +15,9 @@ docker rm core-counter
 docker rmi counter-image:latest
 
 docker rmi mcr.microsoft.com/dotnet/core/aspnet:3.1
+
+(single run example with no create or start)
+
+docker run -it --rm counter-image
+
+docker run -it --rm counter-image 3 (runs exactly 3 times!)
