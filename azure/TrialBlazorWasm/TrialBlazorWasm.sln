@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrialBlazorWasm", "TrialBlazorWasm.csproj", "{9A2FB9B7-6CE3-44EB-ADF2-93CC4BAB781F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrialBlazorWasm", "TrialBlazorWasm.csproj", "{9A2FB9B7-6CE3-44EB-ADF2-93CC4BAB781F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

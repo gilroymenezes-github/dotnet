@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Remove="wwwroot\ts\BingoTsInterop.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,11 +16,41 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="3.2.1" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.9.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.Net.Http.Json" Version="3.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ts\BingoTsInterop.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\ConfigurationDrivenMaps.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\CustomMapStyles.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Microsoft.Maps.All.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Microsoft.Maps.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\Autosuggest.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\Clustering.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\Contour.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\DataBinning.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\Directions.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\DrawingTools.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\GeoJSON.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\GeoXml.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\HeatMapLayer.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\Search.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\SpatialDataService.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\SpatialMath.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\Traffic.d.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\WellKnownText.d.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\ts\interfaces\" />
   </ItemGroup>
 
 </Project>

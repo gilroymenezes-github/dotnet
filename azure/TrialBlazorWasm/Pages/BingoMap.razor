@@ -1,0 +1,19 @@
+﻿@page "/BingoMap"
+
+@inject IJSRuntime JSRuntime
+
+<h1>Location</h1>
+
+<div id="trialMap" style="position:relative; width: 100%; height: 70vh;"></div>
+
+@code {
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<Task>("loadMap");
+        }
+    }
+}
