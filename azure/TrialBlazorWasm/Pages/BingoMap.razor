@@ -1,10 +1,16 @@
 ﻿@page "/BingoMap"
 
+@using TrialBlazorWasm.Models
+
 @inject IJSRuntime JSRuntime
 
 <h1>Location</h1>
 
 <div id="trialMap" style="position:relative; width: 100%; height: 70vh;"></div>
+
+<div>
+    <input type="button" @onclick="() => AddPushpin()" value="Pushpin" />
+</div>
 
 @code {
 
@@ -16,4 +22,12 @@
             await JSRuntime.InvokeAsync<Task>("loadMap");
         }
     }
+
+    protected async Task AddPushpin()
+    {
+        var sitePin = GetPushpin(15.51, 73.88);
+        await JSRuntime.InvokeAsync<Task>("AddPushpin", sitePin);
+    }
+
+    private object GetPushpin(double lat, double lon) => new { color = "green", location = new { latitude = lat, longitude = lon } };
 }

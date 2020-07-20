@@ -49,8 +49,4 @@
     <TypeScriptCompile Include="wwwroot\ts\types\MicrosoftMaps\Modules\WellKnownText.d.ts" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\ts\interfaces\" />
-  </ItemGroup>
-
 </Project>
