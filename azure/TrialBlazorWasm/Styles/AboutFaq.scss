@@ -1,0 +1,13 @@
+﻿@import './Default';
+
+$background: lightyellow;
+
+body {
+	background: $background;
+}
+
+.aboutfaq-image {
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+}

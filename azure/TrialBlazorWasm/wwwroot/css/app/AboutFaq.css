@@ -1,0 +1,12 @@
+﻿* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+body {
+  background: lightyellow; }
+
+.aboutfaq-image {
+  flex: 1;
+  flex-direction: column;
+  justify-content: center; }
