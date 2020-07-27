@@ -1,10 +1,19 @@
-﻿<div class="test-component">
+﻿
+
+<div class="test-component">
     This Blazor component is defined in the <strong>BlazorRcl</strong> package.
 </div>
 <div class="hello-component">
     @datetime
 </div>
+<div>
+    <input type="button" value="Greeting" @onclick="() => interop()" />
+</div>
 
 @code {
+    [Inject] Microsoft.JSInterop.IJSRuntime JSRuntime { get; set; }
+
     private string datetime = DateTime.Now.ToLongDateString();
+
+    private async void interop() => await BlazorRcl.Interops.Hello.GreetMe(JSRuntime);
 }
