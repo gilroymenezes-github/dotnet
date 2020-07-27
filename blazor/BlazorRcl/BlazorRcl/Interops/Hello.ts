@@ -1,13 +1,13 @@
 ﻿namespace BlazorRcl.Interops {
 
     const wait = (ms) => new Promise(res => setTimeout(res, ms));
-    const startAsync = async callback => {
+    const startAsync = async callbackWith => {
         await wait(1000);
-        callback('Hello!');
+        callbackWith('Hello!');
         await wait(1000);
-        callback('And welcome..');
+        callbackWith('And welcome..');
         await wait(1000);
-        callback('To async await in Typescript!');
+        callbackWith('To async await in Typescript!');
     }
 
     class Hello {
