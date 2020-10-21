@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorRcl.Interops
+namespace BlazorRcl.Components
 {
-    public class Hello
+    public class JsInteropService
     {
         public static ValueTask<string> ShowPrompt(IJSRuntime jsRuntime, string promptMessage)
         {
