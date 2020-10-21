@@ -15,5 +15,5 @@
 
     private string datetime = DateTime.Now.ToLongDateString();
 
-    private async void interop() => await BlazorRcl.Components.JsInteropService.GreetMe(JSRuntime);
+    private async void interop() => await BlazorRcl.Services.JsInteropService.GreetMe(JSRuntime);
 }

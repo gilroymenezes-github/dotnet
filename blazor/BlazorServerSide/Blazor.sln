@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor", "Blazor.csproj", "{CB9F5AE4-8AE2-4D6D-AD59-C58E71020446}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorRcl", "..\BlazorRcl\BlazorRcl\BlazorRcl.csproj", "{E6705B3C-4975-4F8F-BC47-F0E39109C80F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorRcl", "..\BlazorRcl\BlazorRcl.csproj", "{E6705B3C-4975-4F8F-BC47-F0E39109C80F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

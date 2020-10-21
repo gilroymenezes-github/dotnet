@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorRcl.Components
+namespace BlazorRcl.Services
 {
     public class JsInteropService
     {

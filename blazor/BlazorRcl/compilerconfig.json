@@ -1,6 +1,6 @@
 ﻿[
   {
     "outputFile": "wwwroot/dist/css/hello.css",
-    "inputFile": "browser/sass/Hello.scss"
+    "inputFile": "browser/sass/hello.scss"
   }
 ]

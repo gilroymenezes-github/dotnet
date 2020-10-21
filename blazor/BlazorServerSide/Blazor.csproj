@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorRcl\BlazorRcl\BlazorRcl.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
+    <ProjectReference Include="..\BlazorRcl\BlazorRcl.csproj" />
   </ItemGroup>
 </Project>
