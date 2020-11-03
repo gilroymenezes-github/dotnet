@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Is4UsersWebApi.Models;
+using Is4UsersWebApi.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -64,7 +65,7 @@ namespace Is4UsersWebApi.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
-                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, _configuration);
+                    var token = TokenService.GenerateJwtToken(model.Email, user, _configuration);
                     var rootData = new SignUpResponse(token, user.UserName, user.Email);
                     return Created("api/v1/authentication/register", rootData);
                 }
@@ -85,7 +86,7 @@ namespace Is4UsersWebApi.Controllers
                 if (result.Succeeded)
                 {
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, appUser, _configuration);
+                    var token = TokenService.GenerateJwtToken(model.Email, appUser, _configuration);
                     var rootData = new LoginResponse(token, appUser.UserName, appUser.Email);
                     return Ok(rootData);
                 }

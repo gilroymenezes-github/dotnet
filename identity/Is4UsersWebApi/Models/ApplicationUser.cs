@@ -1,5 +1,5 @@
-﻿using System;
-using AspNetCore.Identity.Mongo.Model;
+﻿using AspNetCore.Identity.Mongo.Model;
+using System;
 
 namespace Is4UsersWebApi.Models
 {
