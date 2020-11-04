@@ -1,13 +1,12 @@
-﻿using System;
-namespace Identities.Models
+﻿namespace Identities.Models
 {
-    public class LoginResponse
+    public class RegistrationResponse
     {
         public string Token { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
 
-        public LoginResponse(string token, string username, string email)
+        public RegistrationResponse(string token, string username, string email)
         {
             Token = token;
             Username = username;

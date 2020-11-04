@@ -36,7 +36,7 @@ namespace Identities.Controllers
         public async Task<ActionResult> UserInfo()
         {
             var user = await _userManager.GetUserAsync(User);
-            var userInfo = new UserInfoResponse
+            var userInfo = new UserInfo
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -66,7 +66,7 @@ namespace Identities.Controllers
                 {
                     await _signInManager.SignInAsync(user, false);
                     var token = TokenService.GenerateJwtToken(model.Email, user, _configuration);
-                    var rootData = new SignUpResponse(token, user.UserName, user.Email);
+                    var rootData = new RegistrationResponse(token, user.UserName, user.Email);
                     return Created("api/v1/authentication/register", rootData);
                 }
                 return Ok(string.Join(",", result.Errors?.Select(error => error.Description)));

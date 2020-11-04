@@ -17,6 +17,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AspNetCore.Identity.Mongo;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
 
 namespace Identities
 {
@@ -32,6 +35,17 @@ namespace Identities
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure cookie auth
+            services.Configure<CookiePolicyOptions>(cookiePolicyOptions =>
+                {
+                    cookiePolicyOptions.CheckConsentNeeded = context => true;
+                    cookiePolicyOptions.MinimumSameSitePolicy = SameSiteMode.None;
+                });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions =>
+            {
+                cookieOptions.LoginPath = "/login";
+            });
+
             // Configure Identity MongoDb
             services.AddIdentityMongoDbProvider<IdentitiesUser, IdentitiesRole>
                 (
@@ -69,6 +83,10 @@ namespace Identities
                 };
             });
             services.AddControllers();
+            services.AddRazorPages().AddRazorPagesOptions(razorPageOptions =>
+            {
+                razorPageOptions.Conventions.AuthorizeAreaPage("Admin", "/Index").AllowAnonymousToAreaPage("Admin", "/Login");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,16 +96,20 @@ namespace Identities
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseCookiePolicy();
 
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+                        
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }
