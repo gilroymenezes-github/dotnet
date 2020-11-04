@@ -35,17 +35,6 @@ namespace IdentityManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configure cookie auth
-            services.Configure<CookiePolicyOptions>(cookiePolicyOptions =>
-                {
-                    cookiePolicyOptions.CheckConsentNeeded = context => true;
-                    cookiePolicyOptions.MinimumSameSitePolicy = SameSiteMode.None;
-                });
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions =>
-            {
-                cookieOptions.LoginPath = "/login";
-            });
-
             // Configure Identity MongoDb
             services.AddIdentityMongoDbProvider<IdentitiesUser, IdentitiesRole>
                 (
@@ -64,11 +53,21 @@ namespace IdentityManager
                     
                 );
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            services.AddAuthentication(o =>
+
+            // Configure cookie auth
+            services.Configure<CookiePolicyOptions>(cookiePolicyOptions =>
             {
-                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                cookiePolicyOptions.CheckConsentNeeded = context => true;
+                cookiePolicyOptions.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(cookieOptions =>
+            {
+                cookieOptions.LoginPath = "/";
             }).AddJwtBearer(cfg =>
             {
                 cfg.RequireHttpsMetadata = false;
@@ -82,11 +81,14 @@ namespace IdentityManager
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            services.AddHttpContextAccessor();
             services.AddControllers();
             services.AddRazorPages().AddRazorPagesOptions(razorPageOptions =>
             {
                 razorPageOptions.Conventions.AuthorizeAreaPage("Admin", "/Index").AllowAnonymousToAreaPage("Admin", "/Login");
             });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
