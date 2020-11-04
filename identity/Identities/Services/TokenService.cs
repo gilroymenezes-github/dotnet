@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Is4UsersWebApi.Models;
+using Identities.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Is4UsersWebApi.Services
+namespace Identities.Services
 {
     public static class TokenService
     {
-        public static string GenerateJwtToken(string email, ApplicationUser user, IConfiguration configuration)
+        public static string GenerateJwtToken(string email, IdentitiesUser user, IConfiguration configuration)
         {
             var claims = new List<Claim>
             {

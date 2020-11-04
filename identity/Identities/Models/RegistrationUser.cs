@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Is4UsersWebApi.Models
+namespace Identities.Models
 {
-    public class RegisterEntity
+    public class RegistrationUser
     {
         [Required]
         [EmailAddress]
@@ -32,16 +31,5 @@ namespace Is4UsersWebApi.Models
         [Required]
         [Display(Name = "City")]
         public string City { get; set; }
-    }
-
-    public class LoginEntity
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
     }
 }

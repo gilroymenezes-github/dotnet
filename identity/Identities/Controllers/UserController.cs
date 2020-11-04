@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Is4UsersWebApi.Models;
-using Is4UsersWebApi.Services;
+using Identities.Models;
+using Identities.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -14,16 +14,16 @@ using Microsoft.Extensions.Configuration;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Is4UsersWebApi.Controllers
+namespace Identities.Controllers
 {
     [Route("api/v1/[controller]/[action]")]
     public class UserController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<IdentitiesUser> _userManager;
+        private readonly SignInManager<IdentitiesUser> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+        public UserController(UserManager<IdentitiesUser> userManager, SignInManager<IdentitiesUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -49,11 +49,11 @@ namespace Is4UsersWebApi.Controllers
         //POST api/v1/user/register
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody]RegisterEntity model)
+        public async Task<IActionResult> Register([FromBody]RegistrationUser model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
+                var user = new IdentitiesUser
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
@@ -78,7 +78,7 @@ namespace Is4UsersWebApi.Controllers
         //POST api/v1/user/login
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Login([FromBody]LoginEntity model)
+        public async Task<ActionResult> Login([FromBody]LoginUser model)
         {
             if (ModelState.IsValid)
             {

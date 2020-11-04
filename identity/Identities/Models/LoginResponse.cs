@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Is4UsersWebApi.Models
+namespace Identities.Models
 {
     public class LoginResponse
     {

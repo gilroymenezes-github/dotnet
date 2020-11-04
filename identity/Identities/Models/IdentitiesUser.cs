@@ -1,9 +1,9 @@
 ﻿using AspNetCore.Identity.Mongo.Model;
 using System;
 
-namespace Is4UsersWebApi.Models
+namespace Identities.Models
 {
-    public class ApplicationUser : MongoUser
+    public class IdentitiesUser : MongoUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

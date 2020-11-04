@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
-using Is4UsersWebApi.Models;
+using Identities.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AspNetCore.Identity.Mongo;
 using System.Text;
 
-namespace Is4UsersWebApi
+namespace Identities
 {
     public class Startup
     {
@@ -33,7 +33,7 @@ namespace Is4UsersWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure Identity MongoDb
-            services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>
+            services.AddIdentityMongoDbProvider<IdentitiesUser, IdentitiesRole>
                 (
                     identityOptions =>
                     {
