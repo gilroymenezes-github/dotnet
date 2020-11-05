@@ -1,5 +1,42 @@
-﻿<h3>QuizItemEditor</h3>
+﻿<EditForm Model="@editContext" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div><label>Question Statement:</label></div>
+    <InputTextArea @bind-Value="QuizItem.Question.TextValue" />
+    <div><label></label></div>
+    <div class="text-right">
+        <button type="submit" class="btn btn-success">Preview</button>
+    </div>
+</EditForm>
 
 @code {
+    [Parameter] public EventCallback<QuizItem> CreatedQuizItem { get; set; }
+    [Parameter] public QuizItem QuizItem { get; set; } = new QuizItem();
+    
+    private EditContext editContext;
 
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(QuizItem);
+    }
+
+    protected override void OnParametersSet()
+    {
+        editContext = new EditContext(QuizItem);
+    }
+
+    async Task HandleValidSubmit()
+    {
+        var isValid = editContext.Validate();
+
+        if(isValid)
+        {
+            await CreatedQuizItem.InvokeAsync(QuizItem);
+        }
+        else
+        {
+
+        }
+    }
 }

@@ -4,9 +4,9 @@
 @using QuizManager.Components 
 @using QuizManager.Models
 @using QuizManager.Services 
-@inject QuizService QuizRepository
+@inject QuizItemService QuizItemService
 
-<h1>Take your quiz!</h1>
+<h3>Take your quiz!</h3>
 <p>Your current score is @currentScore</p>
 
 @if (quizItems == null)
@@ -19,25 +19,25 @@ else
     @foreach (var quizItem in quizItems)
     {
         <section>
-            <QuizItemComponent NumberedQuizItem="(quizItem, ++quizIndex)" 
-                               AnsweredQuizItem="UpdateScore" >
-            </QuizItemComponent>
+            <QuizItemViewer NumberedQuizItem="(quizItem, ++quizIndex)" 
+                               AnsweredQuizItem="HandleAnsweredQuizItem" >
+            </QuizItemViewer>
         </section>
         <br />
     }
 }
 
 @code {
-        List<QuizItem> quizItems;
-        Dictionary<string, int> quizScores = new Dictionary<string, int>();
-        int currentScore = 0;
+    List<QuizItem> quizItems;
+    Dictionary<string, int> quizScores = new Dictionary<string, int>();
+    int currentScore = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        quizItems = await QuizRepository.GetQuizAsync();
+        quizItems = await QuizItemService.GetQuizItemsAsync();
     }
 
-    void UpdateScore(QuizItem answeredQuizItem)
+    void HandleAnsweredQuizItem(QuizItem answeredQuizItem)
     {
         quizScores[answeredQuizItem.Id]
             = answeredQuizItem.IsAnswerCorrect.HasValue

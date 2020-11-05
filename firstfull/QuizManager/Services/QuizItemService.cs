@@ -5,33 +5,56 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace QuizManager.Services
 {
-    public class QuizService
+    public class QuizItemService
     {
-        public async Task<List<QuizItem>> GetQuizAsync()
+        private const string _collectionName = "Items";
+        private const string _databaseName = "quizzes";
+        private IMongoDatabase _database;
+
+        public QuizItemService()
         {
             var mongoClient = new MongoClient("mongodb://192.168.0.105:27017");
-            var database = mongoClient.GetDatabase("quizzes");
-            var collection = database.GetCollection<QuizItem>("Items");
+            _database = mongoClient.GetDatabase(_databaseName);
+        }
+
+        public async Task InsertQuizItem(QuizItem quizItem)
+        {
+            var collection = _database.GetCollection<QuizItem>(_collectionName);
+            await collection.InsertOneAsync(quizItem);
+        }
+
+        public async Task DeleteQuizItem(QuizItem quizItem)
+        {
+            var deleteFilter = Builders<QuizItem>.Filter.Eq("_id", quizItem.Id);
+            var collection = _database.GetCollection<QuizItem>(_collectionName);
+            await collection.DeleteOneAsync(deleteFilter);
+        }
+
+        public async Task<List<QuizItem>> GetQuizItemsAsync()
+        {
+            var collection = _database.GetCollection<QuizItem>(_collectionName);
             var items = await collection.Find(_ => true).ToListAsync();
 
             if (items.Count == 0)
             {
                 // fill from mock data..
-                foreach (var item in QuizItems)
+                foreach (var quizItem in QuizItems)
                 {
-                    await collection.InsertOneAsync(item);
+                    await collection.InsertOneAsync(quizItem);
                 }
             }
-            return await Task.FromResult(QuizItems);
+            return items;
+            //return await Task.FromResult(QuizItems);
         }
 
         #region mock data
         private static readonly List<QuizItem> QuizItems;
 
-        static QuizService()
+        static QuizItemService()
         {
             QuizItems = new List<QuizItem> {
                 new QuizItem

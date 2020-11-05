@@ -46,7 +46,7 @@ namespace QuizManager
       
 
       services.AddHttpContextAccessor();
-      services.AddSingleton<QuizService>();
+      services.AddSingleton<QuizItemService>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,9 +6,6 @@ namespace QuizManager.Pages
 {
     public class LoginModel : PageModel
     {
-        public async Task OnGet()
-        {
-            
-        }
+        public async Task OnGet() => await Task.Run(() => { });
     }
 }

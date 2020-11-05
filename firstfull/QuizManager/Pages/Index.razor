@@ -1,6 +1,16 @@
 ﻿@page "/"
-@attribute [Authorize]
+@*@attribute [Authorize]*@
 
-<h1>Hello, world!</h1>
+@inject NavigationManager NavigationManager
+<h1>Hello, Quizzer!</h1>
 
-Welcome to your new app.
+
+<button class="btn btn-primary" @onclick="AddQuizItem">Add a quiz item</button>
+
+@code
+{
+    void AddQuizItem()
+    {
+        NavigationManager.NavigateTo("/QuizMaker");
+    }
+}
