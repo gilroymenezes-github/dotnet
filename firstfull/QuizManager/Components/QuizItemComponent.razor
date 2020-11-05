@@ -1,0 +1,30 @@
+﻿
+<div class="card">
+    <div class="card-header">Question: @NumberedQuizItem.Item2</div>
+    <div class="card-body">
+        <h5 class="card-title">@NumberedQuizItem.Item1.Question.TextValue</h5>
+        <div class="card-text">
+            @{ var quizItemIndex = 0; } 
+            @foreach(var answer in NumberedQuizItem.Item1.Answers)
+            {
+                <input class="form-check-input" type="radio"
+                       name="@NumberedQuizItem.Item2" value="@quizItemIndex"
+                       @onchange="@((e) => Answered(answer))"/>
+                <div class="text-body">@answer.TextValue</div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public (QuizItem, int) NumberedQuizItem { get; set; }
+    [Parameter] public EventCallback<QuizItem> AnsweredQuizItem { get; set; }
+
+    async void Answered(Statement answer)
+    {
+        var answeredQuestion = NumberedQuizItem.Item1;
+        answeredQuestion.IsAnswerCorrect = answer.TruthValue.HasValue ? answer.TruthValue.Value : default;
+        await AnsweredQuizItem.InvokeAsync(answeredQuestion);
+    }
+
+}
