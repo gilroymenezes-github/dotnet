@@ -8,6 +8,7 @@ namespace QuizManager.Models
 {
     public class QuizItem
     {
+        public string Id { get; private set; } = Guid.NewGuid().ToString();
         public Statement Question { get; set; }
         public List<Statement> Answers { get; set; }
         public bool? IsAnswerCorrect { get; set; }

@@ -1,17 +1,39 @@
-﻿using QuizManager.Models;
+﻿using MongoDB.Driver;
+using QuizManager.Models;
 using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace QuizManager.Services
 {
     public class QuizService
     {
-        private static readonly List<QuizItem> Quiz;
+        public async Task<List<QuizItem>> GetQuizAsync()
+        {
+            var mongoClient = new MongoClient("mongodb://192.168.0.105:27017");
+            var database = mongoClient.GetDatabase("quizzes");
+            var collection = database.GetCollection<QuizItem>("Items");
+            var items = await collection.Find(_ => true).ToListAsync();
+
+            if (items.Count == 0)
+            {
+                // fill from mock data..
+                foreach (var item in QuizItems)
+                {
+                    await collection.InsertOneAsync(item);
+                }
+            }
+            return await Task.FromResult(QuizItems);
+        }
+
+        #region mock data
+        private static readonly List<QuizItem> QuizItems;
 
         static QuizService()
         {
-            Quiz = new List<QuizItem> {
+            QuizItems = new List<QuizItem> {
                 new QuizItem
                 {
                     Question = new Statement { TextValue = "Which of the following is the name of a Leonardo da Vinci's masterpiece?", TruthValue = null },
@@ -38,10 +60,7 @@ namespace QuizManager.Services
                 }
             };
         }
+        #endregion
 
-        public Task<List<QuizItem>> GetQuizAsync()
-        {
-            return Task.FromResult(Quiz);
-        }
     }
 }
