@@ -19,11 +19,11 @@ namespace IdentityManager.Controllers
     [Route("api/v1/[controller]/[action]")]
     public class UserController : Controller
     {
-        private readonly UserManager<IdentitiesUser> _userManager;
-        private readonly SignInManager<IdentitiesUser> _signInManager;
+        private readonly UserManager<MongoIdentityUser> _userManager;
+        private readonly SignInManager<MongoIdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public UserController(UserManager<IdentitiesUser> userManager, SignInManager<IdentitiesUser> signInManager, IConfiguration configuration)
+        public UserController(UserManager<MongoIdentityUser> userManager, SignInManager<MongoIdentityUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -53,7 +53,7 @@ namespace IdentityManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentitiesUser
+                var user = new MongoIdentityUser
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,

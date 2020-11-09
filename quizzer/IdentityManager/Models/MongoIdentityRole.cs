@@ -2,7 +2,7 @@
 
 namespace IdentityManager.Models
 {
-    public class IdentitiesRole : MongoRole
+    public class MongoIdentityRole : MongoRole
     {
         
     }

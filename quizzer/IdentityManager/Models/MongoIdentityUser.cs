@@ -3,7 +3,7 @@ using System;
 
 namespace IdentityManager.Models
 {
-    public class IdentitiesUser : MongoUser
+    public class MongoIdentityUser : MongoUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

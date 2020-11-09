@@ -11,7 +11,7 @@ namespace IdentityManager.Services
 {
     public static class TokenService
     {
-        public static string GenerateJwtToken(string email, IdentitiesUser user, IConfiguration configuration)
+        public static string GenerateJwtToken(string email, MongoIdentityUser user, IConfiguration configuration)
         {
             var claims = new List<Claim>
             {

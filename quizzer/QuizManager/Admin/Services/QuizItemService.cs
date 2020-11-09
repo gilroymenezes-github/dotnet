@@ -1,5 +1,5 @@
 ﻿using MongoDB.Driver;
-using QuizManager.Admin.Models;
+using QuizManager.Shared.Models;
 using System;
 using System.Linq;
 using System.Collections.Generic;

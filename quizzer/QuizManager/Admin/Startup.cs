@@ -1,18 +1,17 @@
-using System;
-using System.Threading.Tasks;
+using AspNetCore.Identity.Mongo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using QuizManager.Admin.Models;
 using QuizManager.Admin.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using System;
 
 namespace QuizManager.Admin
 {
-  public class Startup
+    public class Startup
   {
     public Startup(IConfiguration configuration)
     {
@@ -25,26 +24,40 @@ namespace QuizManager.Admin
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddRazorPages();
-      services.AddServerSideBlazor();
+            services.AddIdentityMongoDbProvider<MongoIdentityUser, MongoIdentityRole>(
+                identityOptions =>
+                {
+                    // Password settings.
+                    identityOptions.Password.RequiredLength = 6;
+                    identityOptions.Password.RequireLowercase = true;
+                    identityOptions.Password.RequireUppercase = true;
+                    identityOptions.Password.RequireNonAlphanumeric = false;
+                    identityOptions.Password.RequireDigit = true;
 
-      services.Configure<CookiePolicyOptions>(options =>
-      {
-              // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-              options.CheckConsentNeeded = context => true;
-            options.MinimumSameSitePolicy = SameSiteMode.None;
-      });
+                    // Lockout settings.
+                    identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                    identityOptions.Lockout.MaxFailedAccessAttempts = 5;
+                    identityOptions.Lockout.AllowedForNewUsers = true;
+                }, mongoIdentityOptions =>
+                {
+                    mongoIdentityOptions.ConnectionString = Configuration.GetConnectionString("MongoDbConnection");
+                    // mongoIdentityOptions.UsersCollection = "Custom User Collection Name, Default User";
+                    // mongoIdentityOptions.RolesCollection = "Custom Role Collection Name, Default Role";
+                }).AddDefaultUI();
 
-            // Add authentication services
-            services.AddAuthentication(options =>
+            // This is required to ensure server can identify user after login
+            services.ConfigureApplicationCookie(options =>
             {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddCookie();
-      
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+            services.AddRazorPages();
+      services.AddServerSideBlazor();
       services.AddHttpContextAccessor();
       services.AddSingleton<QuizItemService>();
     }

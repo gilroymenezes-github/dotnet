@@ -23,11 +23,11 @@ namespace IdentityManager.Areas.Admin.Pages
 {
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentitiesUser> _userManager;
-        private readonly SignInManager<IdentitiesUser> _signInManager;
+        private readonly UserManager<MongoIdentityUser> _userManager;
+        private readonly SignInManager<MongoIdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public LoginModel(UserManager<IdentitiesUser> userManager, SignInManager<IdentitiesUser> signInManager, IConfiguration configuration)
+        public LoginModel(UserManager<MongoIdentityUser> userManager, SignInManager<MongoIdentityUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;

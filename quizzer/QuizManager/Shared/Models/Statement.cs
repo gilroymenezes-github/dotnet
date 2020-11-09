@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuizManager.Admin.Models
+namespace QuizManager.Shared.Models
 {
     public class Statement
     {

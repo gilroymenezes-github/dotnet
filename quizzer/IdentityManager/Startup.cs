@@ -36,7 +36,7 @@ namespace IdentityManager
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure Identity MongoDb
-            services.AddIdentityMongoDbProvider<IdentitiesUser, IdentitiesRole>
+            services.AddIdentityMongoDbProvider<MongoIdentityUser, MongoIdentityRole>
                 (
                     identityOptions =>
                     {
