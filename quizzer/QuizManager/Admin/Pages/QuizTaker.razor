@@ -1,0 +1,48 @@
+﻿@page "/quizTaker"
+@*@attribute [Authorize]*@
+
+@using QuizManager.Admin.Components 
+@using QuizManager.Admin.Models
+@using QuizManager.Admin.Services 
+@inject QuizItemService QuizItemService
+
+<h3>Take your quiz!</h3>
+<p>Your current score is @currentScore</p>
+
+@if (quizItems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    var quizIndex = 0;
+    @foreach (var quizItem in quizItems)
+    {
+        <section>
+            <QuizItemViewer NumberedQuizItem="(quizItem, ++quizIndex)" 
+                               AnsweredQuizItem="HandleAnsweredQuizItem" >
+            </QuizItemViewer>
+        </section>
+        <br />
+    }
+}
+
+@code {
+    List<QuizItem> quizItems;
+    Dictionary<string, int> quizScores = new Dictionary<string, int>();
+    int currentScore = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        quizItems = await QuizItemService.GetQuizItemsAsync();
+    }
+
+    void HandleAnsweredQuizItem(QuizItem answeredQuizItem)
+    {
+        quizScores[answeredQuizItem.Id]
+            = answeredQuizItem.IsAnswerCorrect.HasValue
+            ? answeredQuizItem.IsAnswerCorrect.Value ? answeredQuizItem.QuestionScore : 0
+            : 0;
+        currentScore = quizScores.Sum(x => x.Value);
+    }
+}
