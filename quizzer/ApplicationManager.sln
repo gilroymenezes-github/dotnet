@@ -4,11 +4,11 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityManager", "IdentityManager\IdentityManager.csproj", "{C467D71F-B741-4E10-BF14-8569A61E7A7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizManager.Server", "QuizManager\Server\QuizManager.Server.csproj", "{C84EDCE7-FFBD-46E0-B9BF-8F3B4D826657}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizManager.Server", "QuizManager\Server\QuizManager.Server.csproj", "{C84EDCE7-FFBD-46E0-B9BF-8F3B4D826657}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizManager.Client", "QuizManager\Client\QuizManager.Client.csproj", "{B3F1AE15-C63D-490C-B705-F0302AAE0F80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizManager.Client", "QuizManager\Client\QuizManager.Client.csproj", "{B3F1AE15-C63D-490C-B705-F0302AAE0F80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizManager.Shared", "QuizManager\Shared\QuizManager.Shared.csproj", "{DDCE86CA-22BD-46F8-A5FE-2ABF41E895E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizManager.Shared", "QuizManager\Shared\QuizManager.Shared.csproj", "{DDCE86CA-22BD-46F8-A5FE-2ABF41E895E2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizManager.Admin", "QuizManager\Admin\QuizManager.Admin.csproj", "{1AF40C8E-216B-4619-81B0-8F21F2805CA1}"
 EndProject

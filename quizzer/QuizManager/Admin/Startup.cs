@@ -81,7 +81,7 @@ namespace QuizManager.Admin
 
       app.UseRouting();
 
-      app.UseCookiePolicy();
+      //app.UseCookiePolicy();
       app.UseAuthentication();
       app.UseAuthorization();
 
