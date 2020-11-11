@@ -5,6 +5,7 @@
   </PropertyGroup>
 
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Is4UsersWebApi' " />
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="6.7.2" />
     <PackageReference Include="Flurl.Http" Version="3.0.0" />

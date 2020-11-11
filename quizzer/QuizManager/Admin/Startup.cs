@@ -12,18 +12,18 @@ using System;
 namespace QuizManager.Admin
 {
     public class Startup
-  {
-    public Startup(IConfiguration configuration)
     {
-      Configuration = configuration;
-    }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-    public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-    public void ConfigureServices(IServiceCollection services)
-    {
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public void ConfigureServices(IServiceCollection services)
+        {
             services.AddIdentityMongoDbProvider<MongoIdentityUser, MongoIdentityRole>(
                 identityOptions =>
                 {
@@ -38,9 +38,10 @@ namespace QuizManager.Admin
                     identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                     identityOptions.Lockout.MaxFailedAccessAttempts = 5;
                     identityOptions.Lockout.AllowedForNewUsers = true;
-                }, mongoIdentityOptions =>
+                },
+                mongoIdentityOptions =>
                 {
-                    mongoIdentityOptions.ConnectionString = Configuration.GetConnectionString("MongoDbConnection");
+                    mongoIdentityOptions.ConnectionString = Configuration.GetConnectionString("MongoDbIdentityConnection");
                     // mongoIdentityOptions.UsersCollection = "Custom User Collection Name, Default User";
                     // mongoIdentityOptions.RolesCollection = "Custom Role Collection Name, Default Role";
                 }).AddDefaultUI();
@@ -57,39 +58,39 @@ namespace QuizManager.Admin
                 options.SlidingExpiration = true;
             });
             services.AddRazorPages();
-      services.AddServerSideBlazor();
-      services.AddHttpContextAccessor();
-      services.AddSingleton<QuizItemService>();
+            services.AddServerSideBlazor();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<QuizItemService>();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            //app.UseCookiePolicy();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/_Host");
+            });
+        }
     }
-
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-      if (env.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-      }
-      else
-      {
-        app.UseExceptionHandler("/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-      }
-
-      app.UseHttpsRedirection();
-      app.UseStaticFiles();
-
-      app.UseRouting();
-
-      //app.UseCookiePolicy();
-      app.UseAuthentication();
-      app.UseAuthorization();
-
-      app.UseEndpoints(endpoints =>
-      {
-        endpoints.MapBlazorHub();
-        endpoints.MapFallbackToPage("/_Host");
-      });
-    }
-  }
 }

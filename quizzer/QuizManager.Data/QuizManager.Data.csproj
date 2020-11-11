@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+    
+     <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+        <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
+  </ItemGroup>
+
+     <ItemGroup>
+       <ProjectReference Include="..\QuizManager\Shared\QuizManager.Shared.csproj" />
+     </ItemGroup>
+     <ItemGroup>
+       <Folder Include="Services\" />
+     </ItemGroup>
+</Project>
