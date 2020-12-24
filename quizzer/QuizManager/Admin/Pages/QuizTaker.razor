@@ -39,7 +39,7 @@ else
 
     void HandleAnsweredQuizItem(QuizItem answeredQuizItem)
     {
-        quizScores[answeredQuizItem.Id]
+        quizScores[answeredQuizItem.Id.ToString()]
             = answeredQuizItem.IsAnswerCorrect.HasValue
             ? answeredQuizItem.IsAnswerCorrect.Value ? answeredQuizItem.QuestionScore : 0
             : 0;
