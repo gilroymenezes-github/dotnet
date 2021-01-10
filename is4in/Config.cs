@@ -22,6 +22,16 @@ namespace is4in
             {
                 new ApiScope("scope1"),
                 new ApiScope("scope2"),
+                new ApiScope("companyapi", "company api")
+            };
+        
+        public static IEnumerable<ApiResource> ApiResources => 
+            new ApiResource[]
+            {
+                new ApiResource("companyapi", "company api")
+                {
+                    Scopes = { "companyapi" }
+                }
             };
 
         public static IEnumerable<Client> Clients =>
