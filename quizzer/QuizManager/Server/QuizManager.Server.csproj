@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>QuizManager.Server-9064DB93-A6E4-4347-AA06-041B4524ECEE</UserSecretsId>
   </PropertyGroup>
 
