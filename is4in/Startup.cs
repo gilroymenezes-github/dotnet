@@ -3,9 +3,15 @@
 
 
 using IdentityServer4;
-using IdentityServerHost.Quickstart.UI;
+using IdentityServer4.Services;
+using IdentityServer4.Stores;
+using IdentityServer4.Validation;
+//using IdentityServerHost.Quickstart.UI;
+using is4in.Entities;
+using is4in.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,13 +42,21 @@ namespace is4in
 
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
-            })
-                .AddTestUsers(TestUsers.Users);
+            });
+                //.AddTestUsers(TestUsers.Users);
 
             // in-memory, code config
             builder.AddInMemoryIdentityResources(Config.IdentityResources);
             builder.AddInMemoryApiScopes(Config.ApiScopes);
             builder.AddInMemoryClients(Config.Clients);
+
+            builder.Services.AddTransient<IMongoDbUserStore, MongoDbUserStore>();
+            builder.Services.AddTransient<IClientStore, MongoDbClientStore>();
+            builder.Services.AddTransient<IProfileService, MongoDbProfileService>();
+            builder.Services.AddTransient<IResourceOwnerPasswordValidator, MongoDbResourceOwnerPasswordValidator>();
+            builder.Services.AddTransient<IPasswordHasher<MongoDbUser>, PasswordHasher<MongoDbUser>>();
+            builder.Services.AddSingleton<MongoDbRepository>();
+            builder.Services.Configure<MongoDbRepositoryConfiguration>(Configuration.GetSection("MongoDb"));
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
