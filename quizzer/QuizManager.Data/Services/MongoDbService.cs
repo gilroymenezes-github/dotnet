@@ -15,7 +15,7 @@ namespace QuizManager.Data.Services
 
         public MongoDbService()
         {
-            var mongoClient = new MongoClient("mongodb://192.168.0.105:27017");
+            var mongoClient = new MongoClient("mongodb://192.168.0.101:27017");
             _database = mongoClient.GetDatabase(_databaseName);
         }
 
