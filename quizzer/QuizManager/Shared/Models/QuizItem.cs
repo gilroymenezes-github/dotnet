@@ -13,6 +13,7 @@ namespace QuizManager.Shared.Models
         public bool IsReady { get; set; } = default;
         public bool IsPublished { get; set; } = default;
         public int QuestionScore { get; set; } = 1;
-       
+        public new DateTime CreatedOn { get; set; }
+
     }
 }

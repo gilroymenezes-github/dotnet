@@ -1,18 +1,17 @@
-﻿using System;
+﻿using QuizManager.Shared.Models.Bson;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace QuizManager.Shared.Models
 {
-    public class Statement
+    public class Statement : BsonDbDocument
     {
-        public string Id { get; private set; } = Guid.NewGuid().ToString();
+        //public string Id { get; private set; } = Guid.NewGuid().ToString();
         [Required]
         public string TextValue { get; set; } = string.Empty;
 
         public bool? TruthValue { get; set; } = default;
 
-        public DateTime? CreatedOn { get; set; } = DateTime.UtcNow;
-
-        public DateTime? UpdatedOn { get; set; } = DateTime.UtcNow;
+        public new DateTime CreatedOn { get; set; }
     }
 }

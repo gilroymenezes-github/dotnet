@@ -17,7 +17,7 @@ namespace QuizManager.Admin.Services
 
         public QuizItemService()
         {
-            var mongoClient = new MongoClient("mongodb://192.168.0.101:27017");
+            var mongoClient = new MongoClient("mongodb://localhost:27017");
             _database = mongoClient.GetDatabase(_databaseName);
         }
 
