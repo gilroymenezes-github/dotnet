@@ -6,6 +6,8 @@ var inputString = @"P22101,TTM Technologies,"" $ 27,894 "",1/2/2020,1/2/2020,0,O
 
 Console.WriteLine($"Input String: {inputString}");
 
+// typescript regex : string.split("/,(?=(?:(?:[^"]"){2})[^"]*$)/")
+
 var regex = new Regex("(?<=^|,)(\"(?:[^\"]|\"\")*\"|[^,]*)");
 
 var splitString = regex.Matches(inputString).ToList();
