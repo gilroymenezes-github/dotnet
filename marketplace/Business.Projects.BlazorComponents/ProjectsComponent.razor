@@ -1,0 +1,115 @@
+﻿@inherits Business.WebApp.Abstractions.BaseComponent
+@using Business.Projects.Abstractions.Models
+@using Business.Customers.Abstractions.Models
+<RadzenHeading Text="Projects"></RadzenHeading>
+
+@if (currentCustomer is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <RadzenGrid ColumnWidth="200px" AllowFiltering="true" AllowPaging="true" PageSize="15" AllowSorting="true" Data="@customers" TItem="Customer" @bind-Value="@currentCustomer">
+                <Columns>
+                    <RadzenGridColumn Width="80px" TItem="Customer" Property="CustomerId" Title="Customer Id" />
+                    <RadzenGridColumn Width="160px" TItem="Customer" Property="Name" Title="Customer Name" />
+                </Columns>
+            </RadzenGrid>
+        </div>
+
+        <div class="col-md-8">
+            @*<RadzenCard Style="margin-bottom:20px">
+                Company:
+                <b>@currentCustomer.Name</b>
+            </RadzenCard>*@
+            <RadzenTabs>
+                <Tabs>
+                    <RadzenTabsItem Text="Projects">
+                        <RadzenGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@projects" TItem="Project">
+                            <Columns>
+                                <RadzenGridColumn TItem="Project" Property="Name" Title="Name" />
+                                <RadzenGridColumn TItem="Project" Property="Type" Title="Type" />
+                                <RadzenGridColumn TItem="Project" Property="Rate" Title="Rate">
+                                    <Template Context="project">
+                                        @string.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", project.HourlyRate)
+                                    </Template>
+                                </RadzenGridColumn>
+                                <RadzenGridColumn TItem="Project" Property="Cost" Title="Cost">
+                                    <Template Context="project">
+                                        @string.Format("{0:C}", project.Cost)
+                                    </Template>
+                                </RadzenGridColumn>
+                                <RadzenGridColumn TItem="Project" Property="Hours" Title="Hours" />
+                                <RadzenGridColumn TItem="Project" Property="Id" Title="Edit">
+                                    <Template Context="project">
+                                        <RadzenButton Text="Edit" ButtonStyle="ButtonStyle.Warning" Click="(() => GetProject(project.Id, project.CustomerId))"></RadzenButton>
+                                    </Template>
+                                </RadzenGridColumn>
+                                
+                            </Columns>
+                        </RadzenGrid>
+                    </RadzenTabsItem>
+                    <RadzenTabsItem Text="Details">
+
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+        </div>
+    </div>
+}
+@*@if (projects is null)
+{
+    <p><em>select a customer...</em></p>
+}
+else
+{
+    <div class="form-group">
+        <input class="form-control" type="text" placeholder="Filter..." @bind="Filter" @bind:event="oninput" />
+    </div>
+    <table class='table table-hover'>
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Customer</th>
+                <th>Currency</th>
+                <th>Hours</th>
+                <th>Rate(Hourly)</th>
+                <th>Cost</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in ProjectViewModelItems.Take(5))
+            {
+                if (!IsVisible(p)) continue;
+                <tr>
+                    <td>@p.Project.Name</td>
+                    <td>@p?.Customer?.Name</td>
+                    <td>@p?.Currency?.CurrencyCode</td>
+                    <td>@p.Project.Hours</td>
+                    <td>@p.Project.HourlyRate</td>
+                    <td>@p.Project.Cost</td>
+                    <td>@p.Project?.ProjectTypeName</td>
+                    <td><RadzenButton Text="Edit" ButtonStyle="ButtonStyle.Warning" Click="(() => GetProject(p.Project.Id, p.Project.CustomerId))"></RadzenButton></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}*@
+
+@if (Mode == Business.Abstractions.CommandEnum.Edit)
+{
+    <RadzenLabel Text="@SelectedProject.Name"></RadzenLabel>
+    <RadzenTextBox @bind-Value="@HoursValueAsString" Placeholder="Hours"></RadzenTextBox>
+    <RadzenTextBox @bind-Value="@HourlyRateValueAsString" Placeholder="Hourly Rate"></RadzenTextBox>
+    <RadzenTextBox @bind-Value="@CostValueAsString" Placeholder="Cost"></RadzenTextBox>
+    <RadzenDropDown TValue="string" Data="@projectTypes" Placeholder="@SelectedProjectTypeNameAsString"
+                    Change="@(e => OnChange(e))" TextProperty="Name" ValueProperty="Name"
+                    AllowFiltering="true">
+    </RadzenDropDown>
+
+    <RadzenButton Text="Update Project" ButtonStyle="ButtonStyle.Secondary" Click="EditProject"></RadzenButton>
+}

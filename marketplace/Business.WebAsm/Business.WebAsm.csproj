@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="3.2.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="3.2.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.1" PrivateAssets="all" />
+	  <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.13" />
+	  <PackageReference Include="Radzen.Blazor" Version="3.1.8" />
+    <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Business.Abstractions.Auth\Business.Abstractions.Auth.csproj" />
+		<ProjectReference Include="..\Business.Deals.BlazorComponents\Business.Deals.BlazorComponents.csproj" />
+		<ProjectReference Include="..\Business.SalesOrders.BlazorComponents\Business.SalesOrders.BlazorComponents.csproj" />
+	</ItemGroup>
+
+</Project>

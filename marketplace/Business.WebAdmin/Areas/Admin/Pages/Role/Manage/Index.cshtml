@@ -1,0 +1,63 @@
+﻿@page
+@model Business.WebAdmin.Areas.Admin.Pages.Role.Manage.IndexModel
+
+@using Business.Abstractions
+
+<br />  
+<div class="container row p-0 m-0">  
+    <div class="col-10">  
+        <h2 class="text-info">Roles</h2>  
+    </div>  
+    <div class="col-2">  
+        <a asp-page="./Create" class="btn btn-info form-control text-white">Add Role</a>  
+    </div>  
+    <div class="col-12 border p-3 mt-3">  
+        <form method="post">  
+            @if(Model.Roles.Count()>0)  
+            {  
+                <table class="table table-striped border">  
+                    <tr class="table-secondary">  
+                        <th>  
+                            <label asp-for="Roles.FirstOrDefault().Name"></label>  
+                        </th>  
+                        <th>  
+                            <label asp-for="Roles.FirstOrDefault().NormalizedName"></label>  
+                        </th>  
+                        <th>  <div>Manage</div>
+                        </th>  
+                    </tr>  
+                    @foreach(var role in Model.Roles)  
+                    {  
+                         @if ((string.CompareOrdinal(role.Name, ApplicationConstant.SysAdminRoleName) == 0)
+                                    || (string.CompareOrdinal(role.Name, ApplicationConstant.SelfRegUserRoleName) == 0))
+                        {
+                            <div class=invisible></div>            
+                        }
+                        else 
+                        {
+                            <tr>  
+                            <td>  
+                                @Html.DisplayFor(m => role.Name)  
+                            </td>  
+                            <td>  
+                                @Html.DisplayFor(m => role.NormalizedName)  
+                            </td>  
+                            <td>  
+                                @*<form asp-page-handler="delete" asp-route-id=@role.Id method="post">
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </form>  *@
+                                <a asp-page="./Delete" asp-route-id=@role.Id class="btn btn-danger btn-sm text-white">Delete</a>
+                                <a asp-page="./Update" asp-route-id=@role.Id class="btn btn-warning btn-sm text-white">Edit</a>
+                            </td>  
+                        </tr>  
+                        }
+                    }  
+                </table>   
+            }  
+            else  
+            {  
+                <p>No Roles.</p>  
+            }  
+        </form>  
+    </div>  
+</div>  

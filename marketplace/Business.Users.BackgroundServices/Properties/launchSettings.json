@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "Business.Users.BackgroundServices": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

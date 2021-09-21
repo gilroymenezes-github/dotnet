@@ -1,0 +1,64 @@
+﻿@inherits Business.WebAsm.Shared.MainLayoutComponent
+
+@using Radzen
+@using Radzen.Blazor
+<RadzenDialog />
+<RadzenNotification />
+<RadzenTooltip />
+<RadzenContextMenu />
+
+<RadzenHeader>
+    <ChildContent>
+        <div class="row justify-content-start align-items-center">
+            <div class="col-6 d-flex align-items-center">
+                <RadzenSidebarToggle Click="@SidebarToggle0Click">
+                </RadzenSidebarToggle>
+                <RadzenLabel Text="PowerUnit">
+                </RadzenLabel>
+            </div>
+            <div class="col-6 text-right">
+                <LoginDisplay />
+
+            </div>
+        </div>
+    </ChildContent>
+</RadzenHeader>
+<RadzenBody @ref="body0">
+    <ChildContent>
+        <RadzenContentContainer Name="main">
+            @Body
+        </RadzenContentContainer>
+    </ChildContent>
+</RadzenBody>
+<RadzenSidebar @ref="sidebar0">
+    <ChildContent>
+        @*<RadzenPanelMenu style="height: 100%">
+                <ChildContent>
+                    <RadzenPanelMenuItem Text="Index" Path="index">
+                    </RadzenPanelMenuItem>
+                </ChildContent>
+            </RadzenPanelMenu>*@
+        <LeftMenu />
+    </ChildContent>
+</RadzenSidebar>
+<RadzenFooter>
+    <ChildContent>
+        <RadzenLabel Text="PowerUnit, Copyright Ⓒ 2021">
+        </RadzenLabel>
+    </ChildContent>
+</RadzenFooter>
+
+
+@*<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>*@

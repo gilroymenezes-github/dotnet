@@ -1,0 +1,38 @@
+﻿@page "{id}"
+@model Business.WebAdmin.Areas.Admin.Pages.User.Manage.DetailModel
+
+<div>
+	<div class="row">
+		<div class="col-6">
+			<div class="row">
+				<div class="col-4">
+					<label for="userName" class=col-form-label>User Name</label>
+				</div>
+				<div class="col-8">
+					<label class="form-control" id="userName">@Model.AppUser.UserName</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-4">
+					<label for="userEmail" class="col-form-label">User Email</label>
+				</div>
+				<div class="col-8">
+					<label class="form-control" id="userName">@Model.AppUser.Email</label>
+				</div>
+			</div>
+		</div>
+		<div class="col-6">
+			<label for="userRoles" class="col-form-label">User Roles</label>
+			<br />
+			<ul>
+				@foreach (var role in Model.AppRoles)
+				{
+					<li class="mb-1">@role</li>
+				}
+			</ul>
+		</div>
+	</div>
+
+
+	<a asp-page="./Update" asp-route-id=@Model.AppUser.Id class="btn btn-primary">Edit</a>
+</div>

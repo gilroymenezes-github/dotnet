@@ -1,0 +1,47 @@
+﻿@page
+@model Business.WebAdmin.Areas.Admin.Pages.User.Manage.UpdateModel
+
+<div>
+	<div class="row">
+		<div class="col-6">
+			<label for="userDetails">User Details</label>
+			<div class="row">
+				<div class="col-4">
+					<label for="userName" class=col-form-label>User Name</label>
+				</div>
+				<div class="col-8">
+					<label class="form-control" id="userName">@Model.AppUser.UserName</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-4">
+					<label for="userEmail" class="col-form-label">User Email</label>
+				</div>
+				<div class="col-8">
+					<label class="form-control" id="userName">@Model.AppUser.Email</label>
+				</div>
+			</div>
+		</div>
+		<div class="col-6">
+			<label for="userRoles" class="col-form-label">User Roles</label>
+			<form method="post">
+				@foreach(var kvp in @Model.AppRoles)
+				{
+					@if(kvp.Value)
+					{
+						<input name="AppRolesChecked" type="checkbox" value="@kvp.Key" checked />@kvp.Key<br />
+					}
+					else
+					{
+						<input name="AppRolesChecked" type="checkbox" value="@kvp.Key" />@kvp.Key<br />
+					}
+
+				}
+				<button type="submit" class="btn btn-warning">Submit</button>
+			</form>
+		</div>
+	</div>
+
+
+	@*<button type="submit" class="btn btn-primary">Edit</button>*@
+</div>

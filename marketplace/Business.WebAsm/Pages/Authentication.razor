@@ -1,0 +1,26 @@
+﻿@page "/authentication/{action}"
+
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+<RemoteAuthenticatorView Action="@Action" OnLogInSucceeded=@OnLogInSucceeded>
+    <LogInFailed>
+        <h2>Login action cancelled.</h2>
+    </LogInFailed>
+    <LogOutSucceeded>
+        <h2>Logout completed successfully.</h2>
+    </LogOutSucceeded>
+</RemoteAuthenticatorView>
+
+@code{
+    [Parameter] public string Action { get; set; }
+
+    [CascadingParameter] public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    public async void OnLogInSucceeded()
+    {
+        var user = (await AuthenticationState).User;
+        if (user.Identity.IsAuthenticated) { } // do something
+    }
+
+}

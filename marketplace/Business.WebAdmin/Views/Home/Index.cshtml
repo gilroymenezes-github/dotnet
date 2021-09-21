@@ -1,0 +1,29 @@
+@using Business.Abstractions
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> SignInManager
+@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+<div class="mb-4">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @if(User.IsInRole(ApplicationConstant.SysAdminRoleName))
+        {
+            <div class=mb-4>
+                <a class="btn btn-primary" asp-area="Admin" asp-page="/Role/Manage/Index" title="Roles">Manage Roles</a>
+            </div>
+            <div class=mb-4>
+                <a class="btn btn-primary" asp-area="Admin" asp-page="/User/Manage/Index" title="Roles">Manage Users</a>
+            </div>
+
+            
+        }
+    }
+
+</div>
+    

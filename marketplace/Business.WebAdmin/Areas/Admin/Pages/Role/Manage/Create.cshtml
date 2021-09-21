@@ -1,0 +1,12 @@
+﻿@page
+@model Business.WebAdmin.Areas.Admin.Pages.Role.Manage.CreateModel
+
+<div>
+	<form method="post">
+		<div class="mb-3">
+			<label for="roleName" class="form-label">Role Name</label>
+			<input asp-for="AppRole.Name" type="text" class="form-control" id="roleName" >
+		</div>
+		<button type="submit" class="btn btn-primary">Add</button>
+	</form>
+</div>

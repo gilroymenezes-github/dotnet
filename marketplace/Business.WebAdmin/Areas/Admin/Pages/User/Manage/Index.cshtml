@@ -1,0 +1,57 @@
+﻿@page
+@model Business.WebAdmin.Areas.Admin.Pages.User.Manage.IndexModel
+@using Business.Abstractions
+
+<br />  
+<div class="container row p-0 m-0">  
+    <div class="col-10">  
+        <h2 class="text-info">Roles</h2>  
+    </div>  
+    <div class="col-2">  
+        <a asp-page="./Create" class="btn btn-info form-control text-white">Add Role</a>  
+    </div>  
+    <div class="col-12 border p-3 mt-3">  
+        <form method="post">  
+            @if(Model.Users.Count()>0)  
+            {  
+                <table class="table table-striped border">  
+                    <tr class="table-secondary">  
+                        <th>  
+                            <label asp-for="Users.FirstOrDefault().UserName"></label>  
+                        </th>  
+                        <th>  
+                            <label asp-for="Users.FirstOrDefault().Email"></label>  
+                        </th>  
+                        <th>  <div>Manage</div>
+                        </th>  
+                    </tr>  
+                    @foreach(var user in Model.Users)  
+                    {  
+                         @if (string.CompareOrdinal(user.UserName, $"{ApplicationConstant.SysAdminRoleName.ToLowerInvariant()}{ApplicationConstant.EmailSuffix}") == 0)                  
+                        {
+                            <div class=invisible></div>            
+                        }
+                        else 
+                        {
+                            <tr>  
+                            <td>  
+                                @Html.DisplayFor(m => user.UserName)  
+                            </td>  
+                            <td>  
+                                @Html.DisplayFor(m => user.Email)  
+                            </td>  
+                            <td>  
+                                <a asp-page="./Detail" asp-route-id=@user.Id class="btn btn-warning btn-sm text-white">Edit</a>
+                            </td>  
+                        </tr>  
+                        }
+                    }  
+                </table>   
+            }  
+            else  
+            {  
+                <p>No Roles.</p>  
+            }  
+        </form>  
+    </div>  
+</div>  

@@ -1,0 +1,21 @@
+﻿@page "/menu"
+<AuthorizeView>
+    <Authorized>
+        <RadzenPanelMenu>
+            
+            <RadzenPanelMenuItem Text="Deals" Path="deals"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Sales Orders" Path="salesorders"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Projects"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Reports"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Customers"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Master Records"></RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </Authorized>
+    <NotAuthorized>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Counter" Path="Counter"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Dashboard" Path="dashboard"></RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </NotAuthorized>
+</AuthorizeView>
+

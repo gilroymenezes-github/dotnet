@@ -1,0 +1,55 @@
+﻿@inherits Business.WebApp.Abstractions.BaseComponent
+@using Business.Projections.Abstractions.Models
+<RadzenHeading Text="Projections for Reports"></RadzenHeading>
+
+@if (Projections is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenButton Text="Add Projection" Click="Add"></RadzenButton>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>User</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Projections.ToList())
+            {
+                <tr>
+                    <td>@p.Name</td>
+                    <td>@p.ProjectionBeginDateTimeUtc.ToLocalTime()</td>
+                    <td>@p.ProjectionEndDateTimeUtc.ToLocalTime()</td>
+                    <td>@p.AssignedTo</td>
+                    <td>
+                        <RadzenButton Text="Edit or Delete"
+                                      ButtonStyle="ButtonStyle.Warning"
+                                      Click="(() => GetProjection(p.Id))"></RadzenButton>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Mode == Business.Abstractions.CommandEnum.Add)
+    {
+        <RadzenTextBox @bind-Value="@SelectedProjectionName" Placeholder="Projection Name"></RadzenTextBox>
+        <RadzenDatePicker @bind-Value="@SelectedStartDate"></RadzenDatePicker>
+        <RadzenDatePicker @bind-Value="@SelectedEndDate"></RadzenDatePicker>
+        <RadzenButton Text="Add Projection" ButtonStyle="ButtonStyle.Secondary" Click="AddProjection"></RadzenButton>
+    }
+    else if (Mode == Business.Abstractions.CommandEnum.Edit)
+    {
+        <RadzenTextBox @bind-Value="@SelectedProjectionName"></RadzenTextBox>
+        <RadzenDatePicker @bind-Value="@SelectedStartDate"></RadzenDatePicker>
+        <RadzenDatePicker @bind-Value="@SelectedEndDate"></RadzenDatePicker>
+        <RadzenButton Text="Edit Projection" ButtonStyle="ButtonStyle.Secondary" Click="EditProjection"></RadzenButton>
+        <RadzenButton Text="Delete Projection" ButtonStyle="ButtonStyle.Danger" Click="DeleteProjection"></RadzenButton>
+    }
+}

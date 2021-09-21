@@ -1,0 +1,58 @@
+﻿
+
+<AuthorizeView>
+    <Authorized>
+        <RadzenProfileMenu>
+            <Template>
+                <Radzen.Blazor.RadzenGravatar Email="@AuthUser"></Radzen.Blazor.RadzenGravatar>
+            </Template>
+            <ChildContent>
+                <RadzenProfileMenuItem Text="Logout" Path="Logout" Icon="logout"></RadzenProfileMenuItem>
+            </ChildContent>
+        </RadzenProfileMenu>
+    </Authorized>
+    <NotAuthorized>
+        <div class="row">
+            <div class="col-9"></div>
+            <div class="col-3">
+                <RadzenMenu>
+                    <RadzenMenuItem Style="text-align:right" Text="Login" Path="Login" Icon="account_circle">
+                    </RadzenMenuItem>
+                </RadzenMenu>
+                @*<NavLink class="nav-link" href="login">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Login
+                </NavLink>*@
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+
+@code {
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected string AuthUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LogUsername();
+    }
+
+    private async Task LogUsername()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            AuthUser = (user.Identity as System.Security.Claims.ClaimsIdentity).Claims.First(c => c.Type == "name").Value;
+        }
+        else
+        {
+            AuthUser = string.Empty;
+        }
+    }
+}

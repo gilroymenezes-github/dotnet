@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "Business.Competencies.BackgroundServices": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
