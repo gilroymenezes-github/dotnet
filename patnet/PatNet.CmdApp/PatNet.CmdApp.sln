@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatNet.CmdApp", "PatNet.CmdApp.csproj", "{47F2EB07-5D93-43D4-AAD6-083C36FC8E26}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47F2EB07-5D93-43D4-AAD6-083C36FC8E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F2EB07-5D93-43D4-AAD6-083C36FC8E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F2EB07-5D93-43D4-AAD6-083C36FC8E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F2EB07-5D93-43D4-AAD6-083C36FC8E26}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14C797BC-02DF-4CE8-98EB-A44D882FCD8A}
+	EndGlobalSection
+EndGlobal
