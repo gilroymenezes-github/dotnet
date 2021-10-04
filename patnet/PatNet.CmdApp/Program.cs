@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using UglyToad.PdfPig;
 using UglyToad.PdfPig.Content;
 
-const string inputFile = @"C:\\Users\\gilroy\\Downloads\\24 Sept part 1";
+const string inputFile = @"C:\\Users\\gilroy\\Downloads\\24 Sept part 2";
 //const string regexString = @":?[A-Z]\d\d[A-Z]\d\d\d\d\d\d\d\d\d\d,?";
 const string regexString = @":?[A-Z]\d{2}[A-Z]\d{10},?";
 
@@ -89,15 +89,15 @@ static IDictionary<string, int> UseAggregateCount(IEnumerable<string> inputs)
     string firstCharString = inputs
         .Where(s => !string.IsNullOrEmpty(s))
         .Aggregate("", (xs, x) => xs + x.First());
-    var totalCount = 0;
+    //var totalCount = 0;
 
     IDictionary<string, int> result = new Dictionary<string, int>();
-    foreach(var first in firstCharString.ToCharArray())
+    foreach(var first in firstCharString.ToCharArray().Distinct())
     {
-        var count = inputs.Count(f => f.First() == first);
-        result[first.ToString()] = count;
-        totalCount += count;
-        if (totalCount < 5) continue;
+        //var count = inputs.Count(f => f.First() == first);
+        result[first.ToString()] = 1;
+        //totalCount += count;
+        //if (totalCount < 5) continue;
     }
     return result;
 }
