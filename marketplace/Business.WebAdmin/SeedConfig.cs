@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using Business.Abstractions;
+using Business.Shared;
 using Business.WebAdmin.Models;
 using IdentityServer4;
 using IdentityServer4.Models;

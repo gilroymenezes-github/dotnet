@@ -21,9 +21,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Business.Abstractions\Business.Abstractions.csproj" />
-	  <ProjectReference Include="..\Business.Deals.BlazorComponents\Business.Deals.BlazorComponents.csproj" />
-		<ProjectReference Include="..\Business.SalesOrders.BlazorComponents\Business.SalesOrders.BlazorComponents.csproj" />
+	  <ProjectReference Include="..\Business.Core\Business.Core.csproj" />
+	  <ProjectReference Include="..\Business.Core\Business.Core.csproj" />
+	  <ProjectReference Include="..\Business.Shared\Business.Shared.csproj" />
+	  <ProjectReference Include="..\Business.Core.WebApp\Business.Core.WebApp.csproj" />
 	  <ProjectReference Include="..\Business.WebApp.Dashboards\Business.WebApp.Dashboards.csproj" />
 	</ItemGroup>
 

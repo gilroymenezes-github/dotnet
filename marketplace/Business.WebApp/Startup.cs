@@ -1,11 +1,10 @@
-using Business.Abstractions;
-using Business.Abstractions.Auth;
-using Business.Abstractions.Auth.Authorizations;
-using Business.Deals.Abstractions.Clients;
-using Business.SalesOrders.Abstractions.Clients;
-using Business.Users.Abstractions.Clients;
-using Business.WebApp.Abstractions;
+using Business.Core.Financials.Connections;
+using Business.Core.Orders.Connections;
+using Business.Shared;
+using Business.Shared.Auth;
+using Business.Shared.Auth.Authorizations;
 using Business.WebApp.Dashboards.GitHub;
+using Business.WebApp.Shared;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -81,9 +80,8 @@ namespace Business.WebApp
             services.AddScoped<GitHubService>();
 
             var uriPowerUnit = new System.Uri(Configuration.GetSection("PowerUnitApi").Value);
-            services.AddHttpClient<DealsWebApiClient>(client => client.BaseAddress = uriPowerUnit);
-            services.AddHttpClient<SalesOrdersWebApiClient>(client => client.BaseAddress = uriPowerUnit);
-            services.AddHttpClient<UsersWebApiClient>(client => client.BaseAddress = uriPowerUnit);
+            services.AddHttpClient<FinancialsHttpClientWithAuth>(client => client.BaseAddress = uriPowerUnit);
+            services.AddHttpClient<OrdersHttpClientWithAuth>(client => client.BaseAddress = uriPowerUnit);
 
             services.AddScoped<IClaimsTransformation, RoleClaimTransformation>(); // only after AuthenticationServiceForUser
         }

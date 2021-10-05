@@ -2,6 +2,8 @@
 
 @using Radzen
 @using Radzen.Blazor
+@using Business.Core.WebApp.Components
+
 <RadzenDialog />
 <RadzenNotification />
 <RadzenTooltip />
@@ -13,7 +15,7 @@
             <div class="col-6 d-flex align-items-center">
                 <RadzenSidebarToggle Click="@SidebarToggle0Click">
                 </RadzenSidebarToggle>
-                <RadzenLabel Text="PowerUnit">
+                <RadzenLabel Text="Business">
                 </RadzenLabel>
             </div>
             <div class="col-6 text-right">
@@ -37,12 +39,12 @@
                 </RadzenPanelMenuItem>
             </ChildContent>
         </RadzenPanelMenu>*@
-        <LeftMenu />
+        <MenuComponent />
     </ChildContent>
 </RadzenSidebar>
 <RadzenFooter>
     <ChildContent>
-        <RadzenLabel Text="PowerUnit, Copyright Ⓒ 2021">
+        <RadzenLabel Text="Copyright Ⓒ 2021">
         </RadzenLabel>
     </ChildContent>
 </RadzenFooter>

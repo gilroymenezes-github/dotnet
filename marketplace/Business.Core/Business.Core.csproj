@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flurl.Http" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\Business.Shared.Storage\Business.Shared.Storage.csproj" />
+    <ProjectReference Include="..\Business.Shared.Auth\Business.Shared.Auth.csproj" />
+    <ProjectReference Include="..\Business.Shared\Business.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

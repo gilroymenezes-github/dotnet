@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Linq;
-using Business.Abstractions;
+using Business.Shared;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Business.WebAdmin.Areas.Admin.Pages.Role.Manage

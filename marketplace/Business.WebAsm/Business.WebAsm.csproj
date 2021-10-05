@@ -16,7 +16,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Business.Abstractions.Auth\Business.Abstractions.Auth.csproj" />
+		<ProjectReference Include="..\Business.Shared.Auth\Business.Shared.Auth.csproj" />
 		<ProjectReference Include="..\Business.Deals.BlazorComponents\Business.Deals.BlazorComponents.csproj" />
 		<ProjectReference Include="..\Business.SalesOrders.BlazorComponents\Business.SalesOrders.BlazorComponents.csproj" />
 	</ItemGroup>

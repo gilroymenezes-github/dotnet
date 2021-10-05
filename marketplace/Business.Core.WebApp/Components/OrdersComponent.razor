@@ -1,0 +1,52 @@
+﻿@inherits Business.WebApp.Shared.BaseComponent
+
+<RadzenHeading Text="Orders"></RadzenHeading>
+
+@if (orders is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenButton Text="Add Order" Click="Add"></RadzenButton>
+    <table class='table table-hover'>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>IsWon</th>
+                <th>Created On At</th>
+                <th>Updated On At</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var so in orders.ToList())
+            {
+                <tr>
+                    <td>@so.Name</td>
+                    <td>@so.Description</td>
+                    <td>@so.DealId</td>
+                    <td>@so.CreatedAtDateTimeUtc</td>
+                    <td>@so.UpdatedAtDateTimeUtc</td>
+                    <td><RadzenButton Text="Edit Or Delete" ButtonStyle="ButtonStyle.Warning" Click="(() => GetSalesOrder(so.Id))"></RadzenButton></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Mode == Business.Shared.CommandEnum.Add)
+    {
+        <RadzenTextBox @bind-Value=@name Placeholder="Sales Order Name"></RadzenTextBox>
+        <RadzenTextBox @bind-Value=@desc Placeholder="Sales Order Description"></RadzenTextBox>
+        <RadzenButton Text="Add Sales Order" ButtonStyle="ButtonStyle.Secondary" Click="AddSalesOrder"></RadzenButton>
+    }
+    else if (Mode == Business.Shared.CommandEnum.Edit)
+    {
+
+        <RadzenTextBox @bind-Value=@selectedOrder.Name Placeholder="Order Name"></RadzenTextBox>
+        <RadzenTextBox @bind-Value=@selectedOrder.Description Placeholder="Order Description"></RadzenTextBox>
+        <RadzenButton Text="Edit Sales Order" ButtonStyle="ButtonStyle.Secondary" Click="EditSalesOrder"></RadzenButton>
+        <RadzenButton Text="Delete Sales Order" ButtonStyle="ButtonStyle.Danger" Click="DeleteSalesOrder"></RadzenButton>
+    }
+}

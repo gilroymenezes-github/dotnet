@@ -1,0 +1,54 @@
+﻿@inherits Business.WebApp.Shared.BaseComponent
+
+<RadzenHeading Text="Deals"></RadzenHeading>
+
+@if (financials == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenButton Text="Add Financial" Click="Add"></RadzenButton>
+    <table class='table table-hover'>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>IsWon</th>
+                <th>Created On At</th>
+                <th>Updated On At</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var deal in financials.ToList())
+            {
+                <tr>
+                    <td>@deal.Name</td>
+                    <td>@deal.Description</td>
+                    <td>@deal.IsWon</td>
+                    <td>@deal.CreatedAtDateTimeUtc</td>
+                    <td>@deal.UpdatedAtDateTimeUtc</td>
+                    <td><RadzenButton Text="Edit Or Delete" ButtonStyle="ButtonStyle.Warning" Click="(() => GetDeal(deal.Id))"></RadzenButton></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Mode == Business.Shared.CommandEnum.Add)
+    {
+        <RadzenTextBox @bind-Value=@name Placeholder="Deal Name"></RadzenTextBox>
+        <RadzenTextBox @bind-Value=@desc Placeholder="Deal Description"></RadzenTextBox>
+        <RadzenButton Text="Add Deal" ButtonStyle="ButtonStyle.Secondary" Click="AddDeal"></RadzenButton>
+    }
+    else if (Mode == Business.Shared.CommandEnum.Edit)
+    {
+
+        <RadzenTextBox @bind-Value=@selectedFinancial.Name Placeholder="Deal Name"></RadzenTextBox>
+        <RadzenTextBox @bind-Value=@selectedFinancial.Description Placeholder="Deal Description"></RadzenTextBox>
+        <RadzenButton Text="Edit Deal" ButtonStyle="ButtonStyle.Secondary" Click="EditDeal"></RadzenButton>
+        <RadzenButton Text="Delete Deal" ButtonStyle="ButtonStyle.Danger" Click="DeleteDeal"></RadzenButton>
+    }
+
+}
+
