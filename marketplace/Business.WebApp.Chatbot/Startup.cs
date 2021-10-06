@@ -30,7 +30,7 @@ namespace Business.WebApp.Chatbots
             // HttpContextAccessor
             services.AddHttpContextAccessor();
             services.AddScoped<HttpContextAccessor>();
-            services.AddScoped<AuthenticationServiceForUser>();     // webapp abstraction
+            services.AddScoped<AuthenticationStateService>();     // webapp abstraction
 
             var uriPowerUnit = new System.Uri(Configuration.GetSection("PowerUnitApi").Value);
         }

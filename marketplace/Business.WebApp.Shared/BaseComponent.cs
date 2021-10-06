@@ -14,7 +14,7 @@ namespace Business.WebApp.Shared
 {
     public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
-        [Inject] protected AuthenticationServiceForUser AuthenticatedUserService { get; set; }
+        [Inject] protected AuthenticationStateService AuthenticatedUserService { get; set; }
         [Inject] protected NotificationService NotificationService { get; set; }
         [Inject] protected IConfiguration Configuration { get; set; }
         [Inject] protected IAuthorizationService AuthorizedPolicyService { get; set; }

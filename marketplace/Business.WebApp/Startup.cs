@@ -70,7 +70,7 @@ namespace Business.WebApp
             // HttpContextAccessor
             services.AddHttpContextAccessor();
             services.AddScoped<HttpContextAccessor>();
-            services.AddScoped<AuthenticationServiceForUser>();     // webapp abstraction
+            services.AddScoped<AuthenticationStateService>();     // webapp abstraction
             services.AddScoped<AccessTokenService>();               // webapi abstraction
                         
             services.AddScoped<DialogService>();
@@ -83,7 +83,10 @@ namespace Business.WebApp
             services.AddHttpClient<FinancialsHttpClientWithAuth>(client => client.BaseAddress = uriPowerUnit);
             services.AddHttpClient<OrdersHttpClientWithAuth>(client => client.BaseAddress = uriPowerUnit);
 
-            services.AddScoped<IClaimsTransformation, RoleClaimTransformation>(); // only after AuthenticationServiceForUser
+            services.AddScoped<IClaimsTransformation, RoleClaimTransformService>(); // only after AuthenticationServiceForUser
+
+            services.AddSingleton<EnvironmentService>();
+            services.AddSingleton<AzureBlobService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

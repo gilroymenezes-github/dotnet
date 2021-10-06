@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Business.WebApp.Shared
 {
-    public class RoleClaimTransformation : IClaimsTransformation
+    public class RoleClaimTransformService : IClaimsTransformation
     {
        
         

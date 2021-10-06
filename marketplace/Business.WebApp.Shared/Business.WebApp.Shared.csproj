@@ -1,18 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.4" />
-	  <PackageReference Include="Radzen.Blazor" Version="3.1.8" />
-	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.4" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+	  <PackageReference Include="Radzen.Blazor" Version="3.11.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.10" />
   </ItemGroup>
 
   <ItemGroup>

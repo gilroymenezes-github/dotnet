@@ -1,4 +1,5 @@
 ﻿using Business.WebApp.Shared;
+using Microsoft.AspNetCore.Components;
 using Radzen.Blazor;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Business.Core.WebApp.Components
 {
-    public partial class MenuComponent : BaseComponent
+    public partial class AppComponent : BaseComponent
     {
-        
         protected string UserRole { get; set; }
 
         protected override async Task OnInitializedAsync()

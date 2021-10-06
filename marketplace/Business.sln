@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Core.Services", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.WebAdmin", "Business.WebAdmin\Business.WebAdmin.csproj", "{73A41DD3-A6CC-4AE0-A34F-8E76416A9827}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.WebApp.Chatbot", "Business.WebApp.Chatbot\Business.WebApp.Chatbots.csproj", "{8E942162-49F3-4651-821F-3D8DD890E16B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.WebApp.Chatbots", "Business.WebApp.Chatbot\Business.WebApp.Chatbots.csproj", "{8E942162-49F3-4651-821F-3D8DD890E16B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,24 @@
+﻿@page "/menu"
+@inherits Business.WebApp.Shared.BaseComponent
+@using Business.Shared
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+
+<AuthorizeView>
+    <Authorized>
+        <RadzenPanelMenu>
+            @if(UserRole == ApplicationConstant.SysAdminRoleName)
+            {
+                <RadzenPanelMenuItem Text="Landing" Path="landing"></RadzenPanelMenuItem>
+            }
+            <RadzenPanelMenuItem Text="Dashboard" Path="dashboard"></RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </Authorized>
+    <NotAuthorized>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Login" Path="login"></RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </NotAuthorized>
+</AuthorizeView>
+
+

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Business.WebApp.Shared
 {
-    public class AuthenticationServiceForUser
+    public class AuthenticationStateService
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly AuthenticationStateProvider authStateProvider;
        
-        public AuthenticationServiceForUser(
+        public AuthenticationStateService(
             AuthenticationStateProvider authStateProvider, 
             IHttpContextAccessor httpContextAccessor)
         {
