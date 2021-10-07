@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Business.Shared.Storage
 {
-    public abstract class AzureStorageTableRepository<T> : ITableRepository<T> where T : BaseModel
+    public abstract class AzureReadWriteTableStorage<T> : ITableStorage<T> where T : BaseModel
     {
         private const string AzureTableStorageConnectionString = "Azure:TableStorage:ConnectionString";
         
@@ -19,10 +19,10 @@ namespace Business.Shared.Storage
         private CloudTableClient cloudTableClient;
 
         protected CloudTable cloudTable;
-        protected ILogger<AzureStorageTableRepository<T>> Logger { get; set; }
+        protected ILogger<AzureReadWriteTableStorage<T>> Logger { get; set; }
         protected string ResourceName { get; set; }
         
-        public AzureStorageTableRepository(IConfiguration configuration, ILogger<AzureStorageTableRepository<T>> logger)
+        public AzureReadWriteTableStorage(IConfiguration configuration, ILogger<AzureReadWriteTableStorage<T>> logger)
         {
             var connectionString = configuration.GetSection(AzureTableStorageConnectionString).Value;
             cloudStorageAccount = CloudStorageAccount.Parse(connectionString);
@@ -30,7 +30,7 @@ namespace Business.Shared.Storage
             this.Logger = logger;
         }
 
-        public AzureStorageTableRepository()  { } // required for http trigggers
+        public AzureReadWriteTableStorage()  { } // required for http trigggers
 
         private async Task<T> UpsertItem(T item, TableOperation operation, string rowId = null, string partitionKey = null)
         {

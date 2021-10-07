@@ -38,6 +38,8 @@ namespace Business.Shared
 
         public string SystemType { get; set; }
 
+        public string Url { get; set; }
+
         /// <summary>
         /// Azure tables does not understand decimals
         /// </summary>

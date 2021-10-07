@@ -3,6 +3,7 @@ using Business.Core.Orders.Connections;
 using Business.Shared;
 using Business.Shared.Auth;
 using Business.Shared.Auth.Authorizations;
+using Business.Shared.Storage;
 using Business.WebApp.Dashboards.GitHub;
 using Business.WebApp.Shared;
 using Microsoft.AspNetCore.Authentication;
@@ -30,8 +31,18 @@ namespace Business.WebApp
         {
             services.AddAuthenticationCore();
             services.AddRazorPages();
-            services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
-            services.AddSignalR().AddAzureSignalR();
+            services.AddServerSideBlazor()
+                .AddHubOptions(options =>
+                {
+                    options.EnableDetailedErrors = true;
+                    //options.MaximumReceiveMessageSize = 32 * 1024;
+                })
+                .AddCircuitOptions(options => 
+                { 
+                    options.DetailedErrors = true; 
+                });
+            services.AddSignalR();
+                //.AddAzureSignalR();
 
             services.AddAuthentication(options =>
             {
@@ -82,11 +93,12 @@ namespace Business.WebApp
             var uriPowerUnit = new System.Uri(Configuration.GetSection("PowerUnitApi").Value);
             services.AddHttpClient<FinancialsHttpClientWithAuth>(client => client.BaseAddress = uriPowerUnit);
             services.AddHttpClient<OrdersHttpClientWithAuth>(client => client.BaseAddress = uriPowerUnit);
+            services.AddHttpClient<FilesHttpClientWithAuth<FileModel>>(client => client.BaseAddress = uriPowerUnit);
 
             services.AddScoped<IClaimsTransformation, RoleClaimTransformService>(); // only after AuthenticationServiceForUser
-
+            
             services.AddSingleton<EnvironmentService>();
-            services.AddSingleton<AzureBlobService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Business.Core.Customers.Repositories
 {
-    public class CustomersRepository : AzureStorageTableRepository<Customer> //CosmosDbRepository<Customer, ItemResponse<Customer>>
+    public class CustomersRepository : AzureReadWriteTableStorage<Customer> //CosmosDbRepository<Customer, ItemResponse<Customer>>
     {
         public CustomersRepository(IConfiguration configuration, ILogger<CustomersRepository> logger)
             : base(configuration, logger)

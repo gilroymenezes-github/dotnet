@@ -8,7 +8,6 @@ namespace Business.Core.Customers.Extensions
         public static Customer UpdateFromCustomer(this Customer customer)
         {
             customer.UpdatedAtDateTimeUtc = DateTime.UtcNow;
-            customer.UpdatedAtDateTimeUtc = DateTime.UtcNow;
             return customer;
         }
 

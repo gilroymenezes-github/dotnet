@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Business.Core.Financials.Repositories
 {
-    public class FinancialsRepository : AzureStorageTableRepository<Financial>//CosmosDbRepository<Deal, ItemResponse<Deal>>
+    public class FinancialsRepository : AzureReadWriteTableStorage<Financial>//CosmosDbRepository<Deal, ItemResponse<Deal>>
     {
         public FinancialsRepository(IConfiguration configuration, ILogger<FinancialsRepository> logger) 
             : base(configuration, logger) 

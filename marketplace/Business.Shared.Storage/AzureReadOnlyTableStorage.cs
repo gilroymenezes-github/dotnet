@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Business.Shared.Storage
 {
-    public class AzureStorageTableReadRepository<T> : IReadTableRepository<T> where T : BaseModel, new()
+    public class AzureReadOnlyTableStorage<T> : IReadOnlyTableStorage<T> where T : BaseModel, new()
     {
         ILogger logger;
         
-        public AzureStorageTableReadRepository(ILogger logger)
+        public AzureReadOnlyTableStorage(ILogger logger)
         {
             this.logger = logger;
         }

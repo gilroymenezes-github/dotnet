@@ -29,7 +29,7 @@ namespace Business.Core.HttpTriggers.Customers
 
         private static async Task<IEnumerable<Customer>> GetCustomers(CloudTable cloudTable, ILogger log)
         {
-            var customersRepository = new AzureStorageTableReadRepository<Customer>(log);
+            var customersRepository = new AzureReadOnlyTableStorage<Customer>(log);
 
             var customers = await customersRepository.ReadItemsAsync(cloudTable);
 

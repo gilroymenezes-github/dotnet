@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Business.Shared
 {
-    public abstract class BaseHttpClient<T> where T: BaseModel
+    public abstract class BaseHttpClient<T> : IRestClient<T> where T : BaseModel
     {
         protected HttpClient HttpClient;
         protected JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         protected ILogger<BaseHttpClient<T>> Logger;
         protected string ResourceName;
-        
+
         protected BaseHttpClient(HttpClient httpClient, ILogger<BaseHttpClient<T>> logger)
         {
             HttpClient = httpClient;
@@ -65,6 +65,6 @@ namespace Business.Shared
             var serialized = JsonSerializer.Serialize(o);
             var stringContent = new StringContent(serialized, Encoding.UTF8, "application/json");
             return stringContent;
-        } 
+        }
     }
 }

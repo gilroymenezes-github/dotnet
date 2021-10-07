@@ -21,7 +21,7 @@
 <p>
     <label>
         Upload up to @maxAllowedFiles of up to @maxFileSize bytes:
-        <InputFile OnChange="@LoadFiles" />
+        <InputFile OnChange=@LoadFiles />
     </label>
 </p>
 
@@ -44,4 +44,13 @@ else
             </li>
         }
     </ul>
+    <label>Test download</label>
+   @* <ul>
+        @foreach(var item in blobNames)
+        {
+            <li>
+                <RadzenButton Click=@((e) => DownloadFile(e, item)) Text=@item></RadzenButton>
+            </li>
+        }
+    </ul>*@
 }

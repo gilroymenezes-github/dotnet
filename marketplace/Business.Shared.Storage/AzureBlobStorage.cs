@@ -4,18 +4,25 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.WebApp.Shared
+namespace Business.Shared.Storage
 {
-    public class AzureBlobService
+    public interface IBlobStorage
+    {
+        Task DownloadBlobAsync(string blobName, string filePath);
+        Task<string> UploadBlobAsync(string blobName, Stream fileStream);
+    }
+
+    public class AzureBlobStorage : IBlobStorage
     {
         string azureStorageAccountConnectionString;
         string azureStorageAccountContainerName;
-        
-        public AzureBlobService(IConfiguration configuration)
+
+        public AzureBlobStorage(IConfiguration configuration)
         {
             azureStorageAccountConnectionString = configuration["Azure:Storage:ConnectionString"];
             azureStorageAccountContainerName = configuration["Azure:Storage:ContainerName"];
@@ -31,10 +38,18 @@ namespace Business.WebApp.Shared
                 ContentType = "application/pdf",
                 CacheControl = "public"
             };
-
             await blobClient.UploadAsync(fileStream, blobHttpHeaders);
 
             return blobClient.Uri.ToString();
+        }
+
+        public async Task DownloadBlobAsync(string blobName, string filePath)
+        {
+            var blobContainerClient = new BlobContainerClient(azureStorageAccountConnectionString, azureStorageAccountContainerName);
+            var blobClient = blobContainerClient.GetBlobClient(blobName);
+
+            await blobClient.DownloadToAsync(filePath);
+
         }
     }
 }

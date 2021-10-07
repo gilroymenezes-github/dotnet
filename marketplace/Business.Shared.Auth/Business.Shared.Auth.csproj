@@ -10,6 +10,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Business.Shared.Storage\Business.Shared.Storage.csproj" />
 	  <ProjectReference Include="..\Business.Shared\Business.Shared.csproj" />
 	</ItemGroup>
 

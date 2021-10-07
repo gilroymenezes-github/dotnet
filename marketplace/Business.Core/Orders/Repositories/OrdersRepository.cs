@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Business.Core.Orders.Repositories
 {
-    public class OrdersRepository : AzureStorageTableRepository<Order>//CosmosDbRepository<SalesOrder, ItemResponse<SalesOrder>>
+    public class OrdersRepository : AzureReadWriteTableStorage<Order>//CosmosDbRepository<SalesOrder, ItemResponse<SalesOrder>>
     {
         public OrdersRepository(IConfiguration configuration, ILogger<OrdersRepository> logger) 
             : base(configuration, logger)

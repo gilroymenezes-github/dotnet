@@ -1,10 +1,15 @@
-﻿using Business.WebApp.Shared;
+﻿using Business.Shared;
+using Business.Shared.Auth;
+using Business.Shared.Auth.Extensions;
+using Business.WebApp.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Business.Core.WebApp.Components
@@ -13,9 +18,10 @@ namespace Business.Core.WebApp.Components
     {
         [Inject] public ILogger<UploadsComponent> Logger { get; set;  }
         [Inject] public EnvironmentService Environment { get; set; }
-        [Inject] public AzureBlobService AzureBlob {  get; set; }   
+        [Inject] public FilesHttpClientWithAuth<FileModel> FilesClient {  get; set; }   
         
         private List<IBrowserFile> loadedFiles = new();
+        private List<string> blobNames = new();
         private long maxFileSize = 8192 * 1000;
         private int maxAllowedFiles = 1;
         private bool isLoading;
@@ -32,13 +38,19 @@ namespace Business.Core.WebApp.Components
                     loadedFiles.Add(file);
 
                     var trustedFileNameForFileStorage = Path.GetRandomFileName();
-                    await AzureBlob.UploadBlobAsync(trustedFileNameForFileStorage, file.OpenReadStream(maxFileSize));
-                    //var path = Path.Combine(Environment.ContentRootPath,
-                    //        Environment.EnvironmentName, "unsafe_uploads",
-                    //        trustedFileNameForFileStorage);
 
-                    //await using FileStream fs = new(path, FileMode.Create);
-                    //await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+                    var fileModel = new FileModel();
+                    fileModel.CreateFromFileModel(trustedFileNameForFileStorage, "pdf");
+
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        content.Add(new StreamContent(file.OpenReadStream(maxFileSize))
+                        {
+                            Headers = { ContentLength = file.Size, ContentType = new MediaTypeHeaderValue(file.ContentType) }
+                        }, "File", trustedFileNameForFileStorage);
+                        var response = await FilesClient.UploadPdfFile(fileModel, content);
+                    }
+                    blobNames.Add(trustedFileNameForFileStorage);
                 }
                 catch (Exception ex)
                 {
@@ -49,5 +61,10 @@ namespace Business.Core.WebApp.Components
 
             isLoading = false;
         }
+
+        //private async Task DownloadFile(MouseEventArgs e, string item)
+        //{
+        //    await AzureBlob.DownloadBlobAsync(item, $"c:/Users/gilroy/Desktop/{item}.pdf");
+        //}
     }
 }

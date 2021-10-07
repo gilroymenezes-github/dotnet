@@ -4,6 +4,7 @@ using Business.Core.Orders.Connections;
 using Business.Shared;
 using Business.Shared.Auth;
 using Business.Shared.Auth.Authorizations;
+using Business.Shared.Storage;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -75,7 +76,9 @@ namespace Business.Core.Endpoints
             
             services.Configure<FinancialsQueueClient>(Configuration).AddSingleton<FinancialsQueueClient>();
             services.Configure<OrdersQueueClient>(Configuration).AddSingleton<OrdersQueueClient>();
-            
+
+            services.AddTransient<IBlobStorage, AzureBlobStorage>();
+
             services.AddLogging();
         }
 
