@@ -16,7 +16,7 @@ namespace Business.Core.WebApp.Components
         [Inject] public AzureBlobService AzureBlob {  get; set; }   
         
         private List<IBrowserFile> loadedFiles = new();
-        private long maxFileSize = 1024 * 100;
+        private long maxFileSize = 8192 * 1000;
         private int maxAllowedFiles = 1;
         private bool isLoading;
 
@@ -32,7 +32,7 @@ namespace Business.Core.WebApp.Components
                     loadedFiles.Add(file);
 
                     var trustedFileNameForFileStorage = Path.GetRandomFileName();
-                    await AzureBlob.UploadBlobAsync(trustedFileNameForFileStorage, file.OpenReadStream());
+                    await AzureBlob.UploadBlobAsync(trustedFileNameForFileStorage, file.OpenReadStream(maxFileSize));
                     //var path = Path.Combine(Environment.ContentRootPath,
                     //        Environment.EnvironmentName, "unsafe_uploads",
                     //        trustedFileNameForFileStorage);
