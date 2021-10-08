@@ -1,4 +1,5 @@
-﻿@inherits Business.WebApp.Shared.BaseComponent
+﻿@using Business.Shared.Statics
+@inherits Business.WebApp.Shared.BaseComponent
 
 <RadzenHeading Text="Deals"></RadzenHeading>
 
@@ -35,13 +36,13 @@ else
         </tbody>
     </table>
 
-    @if (Mode == Business.Shared.CommandEnum.Add)
+    @if (Mode == CommandEnum.Add)
     {
         <RadzenTextBox @bind-Value=@name Placeholder="Deal Name"></RadzenTextBox>
         <RadzenTextBox @bind-Value=@desc Placeholder="Deal Description"></RadzenTextBox>
         <RadzenButton Text="Add Deal" ButtonStyle="ButtonStyle.Secondary" Click="AddDeal"></RadzenButton>
     }
-    else if (Mode == Business.Shared.CommandEnum.Edit)
+    else if (Mode == CommandEnum.Edit)
     {
 
         <RadzenTextBox @bind-Value=@selectedFinancial.Name Placeholder="Deal Name"></RadzenTextBox>

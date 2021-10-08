@@ -1,4 +1,5 @@
 ﻿using Business.Shared;
+using Business.Shared.Statics;
 using Microsoft.AspNetCore.Authentication;
 using System;
 using System.Collections.Generic;

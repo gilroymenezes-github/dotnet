@@ -3,6 +3,7 @@ using Business.Core.Customers.Models;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Business.Shared.Abstractions;
 
 namespace Business.Core.Customers.Connections
 {

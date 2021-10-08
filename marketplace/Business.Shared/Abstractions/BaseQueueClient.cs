@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
+using Business.Shared.Statics;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -7,7 +8,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Business.Shared
+namespace Business.Shared.Abstractions
 {
     public abstract class BaseQueueClient<T> : IAsyncDisposable where T: BaseModel
     {

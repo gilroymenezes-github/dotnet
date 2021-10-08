@@ -1,4 +1,5 @@
 ﻿using Business.Shared;
+using Business.Shared.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;

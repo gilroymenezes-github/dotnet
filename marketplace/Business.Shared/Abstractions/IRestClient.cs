@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Business.Shared
+namespace Business.Shared.Abstractions
 {
     public interface IRestClient<T> where T : BaseModel
     {

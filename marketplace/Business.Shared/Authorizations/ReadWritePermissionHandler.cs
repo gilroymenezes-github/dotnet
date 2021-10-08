@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Business.Shared.Abstractions;
+using Business.Shared.Statics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System.Threading.Tasks;
 
-namespace Business.Shared.Auth.Authorizations
+namespace Business.Shared.Authorizations
 {
     public class ReadWritePermissionHandler<T> : AuthorizationHandler<OperationAuthorizationRequirement, T> where T : BaseModel
     {

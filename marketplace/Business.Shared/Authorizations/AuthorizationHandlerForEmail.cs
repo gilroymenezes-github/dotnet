@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Business.Shared.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 
-namespace Business.Shared.Auth
+namespace Business.Shared.Authorizations
 {
     public class AuthorizationHandlerForEmail<T> : AuthorizationHandler<AuthorizationRequirementForEmail, T>  where T : BaseModel
     {

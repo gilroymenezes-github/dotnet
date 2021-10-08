@@ -1,18 +1,18 @@
-﻿using IdentityModel.Client;
+﻿using Business.Shared.Connections;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Business.Shared.Auth
+namespace Business.Shared.Abstractions
 {
     public abstract class BaseHttpClientWithAuth<T> : BaseHttpClient<T> where T: BaseModel
     {
-        protected AccessTokenService authTokenService;
+        protected AccessTokenClient authTokenService;
         protected AuthenticationStateProvider authStateProvider;
         protected IConfiguration configuration;
         
@@ -25,7 +25,7 @@ namespace Business.Shared.Auth
         {
             this.authStateProvider = authStateProvider;
             this.configuration = configuration;
-            authTokenService = new AccessTokenService();
+            authTokenService = new AccessTokenClient();
         }
 
         public async Task<string> RequestAuthToken()

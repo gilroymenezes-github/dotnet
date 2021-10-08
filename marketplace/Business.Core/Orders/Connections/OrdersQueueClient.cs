@@ -3,6 +3,7 @@ using Business.Shared;
 using Business.Core.Orders.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Business.Shared.Abstractions;
 
 namespace Business.Core.Orders.Connections
 {

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Business.Shared;
+using Business.Shared.Statics;
 
 namespace Business.WebAdmin.Areas.Identity.Pages.Account
 {

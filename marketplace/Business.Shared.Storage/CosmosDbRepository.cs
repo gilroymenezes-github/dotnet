@@ -1,4 +1,5 @@
 ﻿using Business.Shared;
+using Business.Shared.Abstractions;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;

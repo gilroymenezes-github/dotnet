@@ -6,6 +6,7 @@ using Business.WebApp.Shared;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Business.Shared.Statics;
 
 namespace Business.Core.WebApp.Components
 {

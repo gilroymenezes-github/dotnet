@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Business.Shared;
 using Microsoft.AspNetCore.Authorization;
+using Business.Shared.Statics;
 
 namespace Business.WebAdmin.Areas.Admin.Pages.Role.Manage
 {

@@ -1,5 +1,7 @@
 ﻿using Business.Shared;
-using Business.Shared.Auth.Authorizations;
+using Business.Shared.Abstractions;
+using Business.Shared.Authorizations;
+using Business.Shared.Statics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;

@@ -3,6 +3,7 @@ using Business.Core.Orders.Connections;
 using Business.Core.Orders.Models;
 using Business.Core.Orders.Repositories;
 using Business.Shared;
+using Business.Shared.Statics;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

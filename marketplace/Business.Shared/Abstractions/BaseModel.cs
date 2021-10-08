@@ -1,11 +1,12 @@
 ﻿
+using Business.Shared.Statics;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Business.Shared
+namespace Business.Shared.Abstractions
 {
 
     public abstract class BaseModel : TableEntity // ITableEntity

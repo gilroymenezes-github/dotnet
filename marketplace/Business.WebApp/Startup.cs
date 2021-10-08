@@ -1,9 +1,9 @@
 using Business.Core.Financials.Connections;
 using Business.Core.Orders.Connections;
-using Business.Shared;
-using Business.Shared.Auth;
-using Business.Shared.Auth.Authorizations;
-using Business.Shared.Storage;
+using Business.Shared.Abstractions;
+using Business.Shared.Authorizations;
+using Business.Shared.Connections;
+using Business.Shared.Models;
 using Business.WebApp.Dashboards.GitHub;
 using Business.WebApp.Shared;
 using Microsoft.AspNetCore.Authentication;
@@ -82,7 +82,7 @@ namespace Business.WebApp
             services.AddHttpContextAccessor();
             services.AddScoped<HttpContextAccessor>();
             services.AddScoped<AuthenticationStateService>();     // webapp abstraction
-            services.AddScoped<AccessTokenService>();               // webapi abstraction
+            services.AddScoped<AccessTokenClient>();               // webapi abstraction
                         
             services.AddScoped<DialogService>();
             services.AddScoped<NotificationService>();

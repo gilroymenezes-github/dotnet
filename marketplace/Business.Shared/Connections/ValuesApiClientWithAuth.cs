@@ -6,13 +6,13 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Business.Shared.Auth
+namespace Business.Shared.Connections
 {
     public abstract class ValuesApiClientWithAuth<T>
     {
         protected HttpClient httpClient;
         protected AuthenticationStateProvider authStateProvider;
-        protected AccessTokenService authTokenService;
+        protected AccessTokenClient authTokenService;
         protected IConfiguration configuration;
         protected JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -25,7 +25,7 @@ namespace Business.Shared.Auth
             this.httpClient = httpClient;
             this.authStateProvider = authStateProvider;
             this.configuration = configuration;
-            authTokenService = new AccessTokenService();
+            authTokenService = new AccessTokenClient();
         }
 
         protected async Task<string> RequestAuthToken()

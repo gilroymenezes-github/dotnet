@@ -1,6 +1,7 @@
 ﻿using Business.Shared;
-using Business.Shared.Auth;
-using Business.Shared.Auth.Extensions;
+using Business.Shared.Connections;
+using Business.Shared.Extensions;
+using Business.Shared.Models;
 using Business.WebApp.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;

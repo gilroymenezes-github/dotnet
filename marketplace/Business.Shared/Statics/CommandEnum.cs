@@ -1,4 +1,4 @@
-﻿namespace Business.Shared
+﻿namespace Business.Shared.Statics
 {
     public enum CommandEnum
     {

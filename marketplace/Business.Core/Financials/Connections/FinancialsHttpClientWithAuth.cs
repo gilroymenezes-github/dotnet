@@ -1,9 +1,10 @@
-﻿using Business.Shared.Auth;
+﻿using Business.Shared.Connections;
 using Business.Core.Financials.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
+using Business.Shared.Abstractions;
 
 namespace Business.Core.Financials.Connections
 {

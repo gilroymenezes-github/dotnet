@@ -9,6 +9,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Business.Core.Financials.Repositories;
+using Business.Shared.Statics;
 
 namespace Business.Core.BackgroundServices
 {

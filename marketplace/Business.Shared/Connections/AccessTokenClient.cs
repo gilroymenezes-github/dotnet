@@ -4,9 +4,9 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Business.Shared.Auth
+namespace Business.Shared.Connections
 {
-    public class AccessTokenService
+    public class AccessTokenClient
     {
 
         public async Task<string> GetToken(

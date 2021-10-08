@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Business.Shared
+namespace Business.Shared.Abstractions
 {
     public abstract class BaseHttpClient<T> : IRestClient<T> where T : BaseModel
     {

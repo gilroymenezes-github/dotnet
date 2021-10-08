@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Business.Shared.Abstractions;
 
 namespace Business.Core.Orders.Connections
 {

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Business.Shared.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Shared.Auth.Extensions
+namespace Business.Shared.Extensions
 {
     public static class FileModelExtensions
     {

@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Business.Shared.Auth
+namespace Business.Shared.Connections
 {
     public abstract class ValuesHttpClient<T>
     {

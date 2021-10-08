@@ -1,4 +1,6 @@
-﻿using IdentityModel.Client;
+﻿using Business.Shared.Abstractions;
+using Business.Shared.Models;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -6,7 +8,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Business.Shared.Auth
+namespace Business.Shared.Connections
 {
     public class FilesHttpClientWithAuth<T> : BaseHttpClientWithAuth<T> where T : FileModel
     {

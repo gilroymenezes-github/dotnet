@@ -1,4 +1,5 @@
 using Business.Shared;
+using Business.Shared.Statics;
 using Business.WebAdmin.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
