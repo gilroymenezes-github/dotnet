@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Business.WebApp.Chatbots.Pages
+namespace Business.WebApp.Chatbot.Pages
 {
     public partial class Index : BaseComponent
     {

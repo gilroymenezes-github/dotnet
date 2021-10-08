@@ -9,7 +9,7 @@ namespace Business.Core.Financials.Connections
 {
     public class FinancialsQueueClient : BaseQueueClient<Financial>
     {
-        public FinancialsQueueClient(IConfiguration configuration, ILogger<Financial> logger) 
+        public FinancialsQueueClient(IConfiguration configuration, ILogger<FinancialsQueueClient> logger) 
             : base(configuration, logger)
         {
             resourceName = "deals";

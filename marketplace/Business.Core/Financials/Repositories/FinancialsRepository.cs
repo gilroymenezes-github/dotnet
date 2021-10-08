@@ -1,4 +1,4 @@
-﻿using Business.Shared.Storage;
+﻿using Business.Shared.Repositories;
 using Business.Core.Financials.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

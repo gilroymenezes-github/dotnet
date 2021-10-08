@@ -1,23 +1,23 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Business.Core.Orders.Models;
 using Business.Shared.Abstractions;
+using Business.Shared.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Business.Core.Orders.Connections
+namespace Business.Shared.Connections
 {
-    public class OrdersQueueClient : BaseQueueClient<Order>
+    public class FilesQueueClient : BaseQueueClient<FileModel>
     {
-        public OrdersQueueClient(
+        public FilesQueueClient(
             IConfiguration configuration, 
-            ILogger<OrdersQueueClient> logger
+            ILogger<FilesQueueClient> logger
             ) : base(configuration, logger)
         {
-            resourceName = "salesorders";
+            resourceName = "files";
             sender = client.CreateSender(resourceName);
         }
 
-        public ServiceBusProcessor GetSalesOrderMessageProcessor()
+        public ServiceBusProcessor GetFilesMessageProcessor()
             => client.CreateProcessor(resourceName, new ServiceBusProcessorOptions());
     }
 }

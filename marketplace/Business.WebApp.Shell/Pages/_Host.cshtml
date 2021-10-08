@@ -1,5 +1,5 @@
 ﻿@page "/"
-@namespace Business.WebApp.Chatbot.Pages
+@namespace Business.WebApp.Shell.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = null;
@@ -10,15 +10,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Business.WebApp.Chatbots</title>
+    <title>Business.App</title>
     <base href="~/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="_content/Radzen.Blazor/css/default-base.css" rel="stylesheet">
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
+    <link href="Business.WebApp.styles.css" rel="stylesheet" />
 </head>
 <body>
-    <app>
-        <component type="typeof(App)" render-mode="ServerPrerendered" />
-    </app>
+    <component type="typeof(App)" render-mode="ServerPrerendered" />
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
@@ -30,7 +30,7 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

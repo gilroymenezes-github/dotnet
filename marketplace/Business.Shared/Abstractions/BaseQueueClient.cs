@@ -26,7 +26,7 @@ namespace Business.Shared.Abstractions
             await client.DisposeAsync();
         }
 
-        public BaseQueueClient(IConfiguration configuration, ILogger<T> logger)
+        public BaseQueueClient(IConfiguration configuration, ILogger<BaseQueueClient<T>> logger)
         {
             var connectionString = configuration.GetSection(AzureServiceBusConnectionString).Value;
             client = new ServiceBusClient(connectionString);

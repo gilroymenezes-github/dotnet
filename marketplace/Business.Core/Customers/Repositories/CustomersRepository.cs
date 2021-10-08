@@ -1,5 +1,5 @@
 ﻿using Business.Core.Customers.Models;
-using Business.Shared.Storage;
+using Business.Shared.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
