@@ -41,11 +41,11 @@ namespace Business.Core.Orders.Connections
                 : JsonConvert.DeserializeObject<Order[]>(responseAsString)[0];
         }
 
-        public override async Task AddItemAsync(Order item) => await Task.CompletedTask;
+        public override Task<Order> AddItemAsync(Order item) => (Task<Order>)Task.CompletedTask;
 
-        public override async Task EditItemAsync(Order item) => await Task.CompletedTask;
+        public override Task<Order> EditItemAsync(Order item) => (Task<Order>)Task.CompletedTask;
 
-        public override async Task DeleteItemAsync(string id, bool isHardDelete = false) => await Task.CompletedTask;
+        public override Task DeleteItemAsync(string id, bool isHardDelete = false) => Task.CompletedTask;
        
     }
 }

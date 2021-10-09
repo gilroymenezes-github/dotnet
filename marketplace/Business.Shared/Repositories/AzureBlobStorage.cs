@@ -13,8 +13,8 @@ namespace Business.Shared.Repositories
 {
     public interface IBlobStorage
     {
-        Task DownloadBlobAsync(string blobName, string filePath);
-        Task<string> UploadBlobAsync(string blobName, Stream fileStream);
+        Task<byte[]> DownloadBlobAsync(string blobName);
+        Task<string> UploadBlobAsync(string blobName, string contentType, Stream fileStream);
     }
 
     public class AzureBlobStorage : IBlobStorage
@@ -28,14 +28,14 @@ namespace Business.Shared.Repositories
             azureStorageAccountContainerName = configuration["Azure:Storage:ContainerName"];
         }
 
-        public async Task<string> UploadBlobAsync(string blobName, Stream fileStream)
+        public async Task<string> UploadBlobAsync(string blobName, string contentType, Stream fileStream)
         {
             var blobContainerClient = new BlobContainerClient(azureStorageAccountConnectionString, azureStorageAccountContainerName);
             var blobClient = blobContainerClient.GetBlobClient(blobName);
 
             var blobHttpHeaders = new BlobHttpHeaders
             {
-                ContentType = "application/pdf",
+                ContentType = contentType,
                 CacheControl = "public"
             };
             await blobClient.UploadAsync(fileStream, blobHttpHeaders);
@@ -43,13 +43,15 @@ namespace Business.Shared.Repositories
             return blobClient.Uri.ToString();
         }
 
-        public async Task DownloadBlobAsync(string blobName, string filePath)
+        public async Task<byte[]> DownloadBlobAsync(string blobName)
         {
             var blobContainerClient = new BlobContainerClient(azureStorageAccountConnectionString, azureStorageAccountContainerName);
             var blobClient = blobContainerClient.GetBlobClient(blobName);
 
-            await blobClient.DownloadToAsync(filePath);
-
+            using var stream = new MemoryStream();
+            await blobClient.DownloadToAsync(stream);
+            stream.Position = 0;
+            return stream.ToArray();
         }
     }
 }

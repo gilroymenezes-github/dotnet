@@ -37,11 +37,11 @@ namespace Business.Core.Financials.Connections
             return JsonConvert.DeserializeObject<Financial[]>(responseAsString)[0];
         }
 
-        public override async Task AddItemAsync(Financial item) => await Task.CompletedTask;
+        public override Task<Financial> AddItemAsync(Financial item) => (Task<Financial>)Task.CompletedTask;
 
-        public override async Task EditItemAsync(Financial item) => await Task.CompletedTask;
+        public override Task<Financial> EditItemAsync(Financial item) => (Task<Financial>)Task.CompletedTask;
 
-        public override async Task DeleteItemAsync(string id, bool isHardDelete = false) => await Task.CompletedTask;
+        public override Task DeleteItemAsync(string id, bool isHardDelete = false) => Task.CompletedTask;
 
     }
 }

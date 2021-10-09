@@ -11,6 +11,7 @@ namespace Business.Shared.Extensions
     {
         public static FileModel CreateFromFileModel(this FileModel model, string filename, string extension)
         {
+            model.Id = Guid.NewGuid().ToString();
             model.CreatedAtDateTimeUtc = DateTime.UtcNow;
             model.UpdatedAtDateTimeUtc = DateTime.UtcNow;
             model.Name = filename; 

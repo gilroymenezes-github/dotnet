@@ -29,7 +29,7 @@ namespace Business.Shared.Connections
             if (string.IsNullOrEmpty(accessToken)) return default;
             HttpClient.SetBearerToken(accessToken);
 
-            var response = await HttpClient.PostAsync($"{HttpClient.BaseAddress}/{ResourceName}/upload-pdf/{fileModel.Name}", fileContent);
+            var response = await HttpClient.PostAsync($"{HttpClient.BaseAddress}/{ResourceName}/upload/pdf", fileContent);
             var responseString = await response.Content.ReadAsStringAsync();
             fileModel.Url = responseString;
             return fileModel;

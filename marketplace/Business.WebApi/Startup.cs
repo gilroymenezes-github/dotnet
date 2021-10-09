@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Business.Shared.Models;
 
 namespace Business.Core.WebApi
 {
@@ -77,6 +78,8 @@ namespace Business.Core.WebApi
             
             services.Configure<FinancialsQueueClient>(Configuration).AddSingleton<FinancialsQueueClient>();
             services.Configure<OrdersQueueClient>(Configuration).AddSingleton<OrdersQueueClient>();
+
+            services.Configure<FilesTableStore>(Configuration).AddSingleton<FilesTableStore>();
 
             services.AddTransient<IBlobStorage, AzureBlobStorage>();
 

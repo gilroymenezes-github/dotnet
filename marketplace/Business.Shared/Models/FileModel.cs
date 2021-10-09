@@ -6,5 +6,6 @@ namespace Business.Shared.Models
     {
         public string Extension { get; set; }
         public string Type { get; set; }
+        public string ContentType { get; set; }
     }
 }

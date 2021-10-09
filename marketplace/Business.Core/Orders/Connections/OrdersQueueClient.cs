@@ -13,11 +13,11 @@ namespace Business.Core.Orders.Connections
             ILogger<OrdersQueueClient> logger
             ) : base(configuration, logger)
         {
-            resourceName = "salesorders";
-            sender = client.CreateSender(resourceName);
+            ResourceName = "salesorders";
+            Sender = Client.CreateSender(ResourceName);
         }
 
         public ServiceBusProcessor GetSalesOrderMessageProcessor()
-            => client.CreateProcessor(resourceName, new ServiceBusProcessorOptions());
+            => Client.CreateProcessor(ResourceName, new ServiceBusProcessorOptions());
     }
 }

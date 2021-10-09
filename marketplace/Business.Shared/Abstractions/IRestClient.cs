@@ -5,9 +5,9 @@ namespace Business.Shared.Abstractions
 {
     public interface IRestClient<T> where T : BaseModel
     {
-        Task AddItemAsync(T item);
+        Task<T> AddItemAsync(T item);
         Task DeleteItemAsync(string id, bool isHardDelete = false);
-        Task EditItemAsync(T item);
+        Task<T> EditItemAsync(T item);
         Task<IEnumerable<T>> GetAsync();
         Task<T> GetFromIdAsync(string id);
     }

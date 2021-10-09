@@ -36,23 +36,31 @@ namespace Business.Shared.Abstractions
             
         }
 
-        public override async Task AddItemAsync(T item)
+        public override async Task<T> AddItemAsync(T item)
         {
             var accessToken = await RequestAuthToken();
-            if (string.IsNullOrEmpty(accessToken)) return;
+            if (string.IsNullOrEmpty(accessToken)) return item;
             HttpClient.SetBearerToken(accessToken);
 
             var response = await HttpClient.PostAsync($"{HttpClient.BaseAddress}/{ResourceName}", GetStringContentFromObject(item));
             response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+            return string.IsNullOrEmpty(responseString)
+                ? item
+                : JsonSerializer.Deserialize<T>(responseString, JsonSerializerOptions);
         }
-        public override async Task EditItemAsync(T item)
+        public override async Task<T> EditItemAsync(T item)
         {
             var accessToken = await RequestAuthToken();
-            if (string.IsNullOrEmpty(accessToken)) return;
+            if (string.IsNullOrEmpty(accessToken)) return item;
             HttpClient.SetBearerToken(accessToken);
 
             var response = await HttpClient.PutAsync($"{HttpClient.BaseAddress}/{ResourceName}/{item.Id}", GetStringContentFromObject(item));
             response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+            return string.IsNullOrEmpty(responseString)
+                ? item
+                : JsonSerializer.Deserialize<T>(responseString, JsonSerializerOptions);
         }
 
         public override async Task<IEnumerable<T>> GetAsync()

@@ -42,16 +42,20 @@ namespace Business.WebApp.Core.Components
 
                     var fileModel = new FileModel();
                     fileModel.CreateFromFileModel(trustedFileNameForFileStorage, "pdf");
+                    fileModel.ContentType = "application/pdf";
 
+                    var fileModelUploaded = new FileModel();
                     using (var content = new MultipartFormDataContent())
                     {
                         content.Add(new StreamContent(file.OpenReadStream(maxFileSize))
                         {
                             Headers = { ContentLength = file.Size, ContentType = new MediaTypeHeaderValue(file.ContentType) }
                         }, "File", trustedFileNameForFileStorage);
-                        var response = await FilesClient.UploadPdfFile(fileModel, content);
+                        fileModelUploaded = await FilesClient.UploadPdfFile(fileModel, content);
                     }
                     blobNames.Add(trustedFileNameForFileStorage);
+                    if (!string.IsNullOrEmpty(fileModelUploaded.Url))
+                        fileModel = await FilesClient.AddItemAsync(fileModelUploaded);
                 }
                 catch (Exception ex)
                 {

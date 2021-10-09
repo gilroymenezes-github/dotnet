@@ -14,10 +14,10 @@ namespace Business.Core.Customers.Connections
             ResourceName = "customers";
         }
 
-        public override Task AddItemAsync(Customer item) => Task.CompletedTask;
+        public override Task<Customer> AddItemAsync(Customer item) => (Task<Customer>)Task.CompletedTask;
 
         public override Task DeleteItemAsync(string id, bool isHardDelete = false) => Task.CompletedTask;
 
-        public override Task EditItemAsync(Customer item) => Task.CompletedTask;
+        public override Task<Customer> EditItemAsync(Customer item) => (Task<Customer>)Task.CompletedTask;
     }
 }

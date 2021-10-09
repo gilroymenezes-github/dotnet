@@ -15,28 +15,27 @@ namespace Business.Shared.Abstractions
         private const string AzureServiceBusConnectionString = "Azure:ServiceBus:ConnectionString";
         protected IConfiguration configuration;
         protected ILogger logger;
-        protected ServiceBusClient client;
-        protected ServiceBusSender sender;
-        protected string resourceName; // assigned by derived class
-
+        public ServiceBusClient Client { get; protected set; }
+        public ServiceBusSender Sender { get; protected set; }
+        public string ResourceName { get; protected set; }
         public HubConnection HubConnection { get; private set; }
 
         public async ValueTask DisposeAsync()
         {
-            await client.DisposeAsync();
+            await Client.DisposeAsync();
         }
 
         public BaseQueueClient(IConfiguration configuration, ILogger<BaseQueueClient<T>> logger)
         {
             var connectionString = configuration.GetSection(AzureServiceBusConnectionString).Value;
-            client = new ServiceBusClient(connectionString);
+            Client = new ServiceBusClient(connectionString);
             this.configuration = configuration;
             this.logger = logger;
         }
 
         public async Task CreateAsync(T item)
         {
-            sender ??= client.CreateSender(resourceName);
+            Sender ??= Client.CreateSender(ResourceName);
             var itemToAdd = new BaseCommand<T> { Command = CommandEnum.Add, Item = item };
             var itemAsJsonString = JsonSerializer.Serialize(itemToAdd);
             await SendItemMessageAsync(itemAsJsonString);
@@ -44,7 +43,7 @@ namespace Business.Shared.Abstractions
 
         public async Task UpdateAsync(T item)
         {
-            sender ??= client.CreateSender(resourceName);
+            Sender ??= Client.CreateSender(ResourceName);
             var itemToEdit = new BaseCommand<T> { Command = CommandEnum.Edit, Item = item };
             var itemAsJsonString = JsonSerializer.Serialize(itemToEdit);
             await SendItemMessageAsync(itemAsJsonString);
@@ -61,6 +60,6 @@ namespace Business.Shared.Abstractions
         }
 
         private async Task SendItemMessageAsync(string message)
-            => await sender.SendMessageAsync(new ServiceBusMessage(message));
+            => await Sender.SendMessageAsync(new ServiceBusMessage(message));
     }
 }

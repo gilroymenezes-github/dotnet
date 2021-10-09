@@ -12,7 +12,7 @@ namespace Business.Shared.Abstractions
         protected HttpClient HttpClient;
         protected JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         protected ILogger<BaseHttpClient<T>> Logger;
-        protected string ResourceName;
+        public string ResourceName { get; protected set; }
 
         protected BaseHttpClient(HttpClient httpClient, ILogger<BaseHttpClient<T>> logger)
         {
@@ -38,9 +38,9 @@ namespace Business.Shared.Abstractions
                 : JsonSerializer.Deserialize<T>(responseAsString, JsonSerializerOptions);
         }
 
-        public abstract Task AddItemAsync(T item);
+        public abstract Task<T> AddItemAsync(T item);
 
-        public abstract Task EditItemAsync(T item);
+        public abstract Task<T> EditItemAsync(T item);
 
         public abstract Task DeleteItemAsync(string id, bool isHardDelete = false);
 

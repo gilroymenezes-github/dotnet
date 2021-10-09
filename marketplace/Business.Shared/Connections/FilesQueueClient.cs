@@ -13,11 +13,11 @@ namespace Business.Shared.Connections
             ILogger<FilesQueueClient> logger
             ) : base(configuration, logger)
         {
-            resourceName = "files";
-            sender = client.CreateSender(resourceName);
+            ResourceName = "files";
+            Sender = Client.CreateSender(ResourceName);
         }
 
         public ServiceBusProcessor GetFilesMessageProcessor()
-            => client.CreateProcessor(resourceName, new ServiceBusProcessorOptions());
+            => Client.CreateProcessor(ResourceName, new ServiceBusProcessorOptions());
     }
 }

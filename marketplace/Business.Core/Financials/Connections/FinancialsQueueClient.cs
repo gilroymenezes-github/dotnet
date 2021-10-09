@@ -12,12 +12,12 @@ namespace Business.Core.Financials.Connections
         public FinancialsQueueClient(IConfiguration configuration, ILogger<FinancialsQueueClient> logger) 
             : base(configuration, logger)
         {
-            resourceName = "deals";
-            sender = client.CreateSender(resourceName);
+            ResourceName = "deals";
+            Sender = Client.CreateSender(ResourceName);
         }
 
         public ServiceBusProcessor GetDealMessageProcessor() 
-            => client.CreateProcessor(resourceName, new ServiceBusProcessorOptions());
+            => Client.CreateProcessor(ResourceName, new ServiceBusProcessorOptions());
   
     }
 }

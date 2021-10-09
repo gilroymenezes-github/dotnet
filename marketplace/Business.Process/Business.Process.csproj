@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker;Microsoft.NET.Sdk.Publish">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker;Microsoft.NET.Sdk.Publish">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>dotnet-Business.Customers.BackgroundServices-5D83DC6E-B4BB-4517-B62E-3942F137DAAD</UserSecretsId>
@@ -6,6 +6,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+	<PackageReference Include="PdfPig" Version="0.1.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Business.Core\Business.Core.csproj" />

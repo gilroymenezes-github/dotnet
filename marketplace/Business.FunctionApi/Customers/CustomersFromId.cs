@@ -11,10 +11,17 @@ using System.Threading.Tasks;
 
 namespace Business.FunctionApi
 {
-    public static class CustomersFromId
+    public class CustomersFromId
     {
+        private readonly ITableStorage<Customer> customerStore;
+
+        public CustomersFromId(ITableStorage<Customer> customerStore)
+        {
+            this.customerStore = customerStore;
+        }
+
         [FunctionName("customers-fromid")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "customers/{id}")] HttpRequest req,
             [Table("customers", Connection = "AzureWebJobsStorage")] CloudTable cloudTable,
             ILogger log)
@@ -32,11 +39,9 @@ namespace Business.FunctionApi
             return new UnauthorizedResult();
         }
 
-        private static async Task<Customer> GetCustomerFromId(CloudTable cloudTable, string id, ILogger log)
+        private async Task<Customer> GetCustomerFromId(CloudTable cloudTable, string id, ILogger log)
         {
-            var customersRepository = new AzureReadOnlyTableStorage<Customer>(log);
-
-            var customer = await customersRepository.ReadItemAsync(cloudTable, id);
+            var customer = await customerStore.ReadItemAsync(cloudTable, id);
 
             return customer;
         }
