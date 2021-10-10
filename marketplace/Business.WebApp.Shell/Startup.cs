@@ -94,6 +94,7 @@ namespace Business.WebApp.Shell
             services.AddHttpClient<FinancialsHttpClientWithAuth>(client => client.BaseAddress = uriPowerUnit);
             services.AddHttpClient<OrdersHttpClientWithAuth>(client => client.BaseAddress = uriPowerUnit);
             services.AddHttpClient<FilesHttpClientWithAuth<FileModel>>(client => client.BaseAddress = uriPowerUnit);
+            services.AddHttpClient<CountsHttpClientWithAuth<CountModel>>(client => client.BaseAddress = uriPowerUnit);
 
             services.AddScoped<IClaimsTransformation, RoleClaimTransformService>(); // only after AuthenticationServiceForUser
             

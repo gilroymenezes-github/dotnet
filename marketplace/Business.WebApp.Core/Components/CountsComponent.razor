@@ -1,0 +1,39 @@
+﻿<h5>Chart</h5>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 my-5">
+            <label>Smooth <RadzenCheckBox @bind-Value="@smooth" Name="smooth"></RadzenCheckBox></label>
+            <RadzenChart>
+                <RadzenLineSeries Smooth="@smooth" Data="@A" CategoryProperty="Date" Title="A" ValueProperty="Count">
+                    <RadzenMarkers MarkerType="MarkerType.Square" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="@smooth" Data="@B" CategoryProperty="Date" Title="B" ValueProperty="Count">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="@smooth" Data="@C" CategoryProperty="Date" Title="C" ValueProperty="Count">
+                    <RadzenMarkers MarkerType="MarkerType.Square" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="@smooth" Data="@D" CategoryProperty="Date" Title="D" ValueProperty="Count">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="@smooth" Data="@E" CategoryProperty="Date" Title="E" ValueProperty="Count">
+                    <RadzenMarkers MarkerType="MarkerType.Square" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="@smooth" Data="@F" CategoryProperty="Date" Title="F" ValueProperty="Count">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="@smooth" Data="@G" CategoryProperty="Date" Title="G" ValueProperty="Count">
+                    <RadzenMarkers MarkerType="MarkerType.Square" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="@smooth" Data="@H" CategoryProperty="Date" Title="H" ValueProperty="Count">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenCategoryAxis Padding="20" />
+                <RadzenValueAxis>
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Classifications" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </div>
+    </div>
+</div>

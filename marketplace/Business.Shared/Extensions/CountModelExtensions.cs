@@ -11,7 +11,7 @@ namespace Business.Shared.Extensions
             model.Id = Guid.NewGuid().ToString();
             model.CreatedAtDateTimeUtc = DateTime.UtcNow;
             model.UpdatedAtDateTimeUtc = DateTime.UtcNow;
-            model.TsvToken = ";";
+           
             return model;
         }
     }

@@ -81,6 +81,7 @@ namespace Business.Core.WebApi
             services.Configure<FilesQueueClient>(Configuration).AddSingleton<FilesQueueClient>();
 
             services.Configure<FilesTableStore>(Configuration).AddSingleton<FilesTableStore>();
+            services.Configure<CountsTableStore>(Configuration).AddSingleton<CountsTableStore>();
 
             services.AddTransient<IBlobStorage, AzureBlobStorage>();
 

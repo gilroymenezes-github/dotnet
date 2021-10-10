@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using UglyToad.PdfPig;
 using UglyToad.PdfPig.Content;
 using System.Globalization;
+using System.Text.Json;
 
 namespace Business.Process.Classifications
 {
@@ -46,7 +47,7 @@ namespace Business.Process.Classifications
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(2000, stoppingToken);
                 try
                 {
                     await UpdateFiles();
@@ -81,14 +82,13 @@ namespace Business.Process.Classifications
             await filesStore.UpdateItemAsync(file);
         }
 
-        private async Task UpdateCounts(string name, byte[] data)
+        private async Task UpdateCounts(string blobName, byte[] blobData)
         {
-            var result = UpdateCountsFromData(data);
-            var countModel = new CountModel() { Name = "classifications", PublicationDate = result.PublicationDate.AddDays(1) };    // correct for UTC
+            var result = UpdateCountsFromData(blobData);
+            var countModel = new CountModel() { Name = result.PublicationDate.ToShortDateString(), PublicationDate = result.PublicationDate.AddDays(1) };    // correct for UTC
             countModel = countModel.CreateFromCountModel();
-            countModel.TokenSeparatedFields = string.Join(countModel.TsvToken, result.Counts.Keys);
-            countModel.TokenSeparatedValues = string.Join(countModel.TsvToken, result.Counts.Values);
-            await countsStore.CreateItemAsync(countModel, name, result.PublicationDate.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture));
+            countModel.JsonData = JsonSerializer.Serialize(result.Counts);
+            await countsStore.CreateItemAsync(countModel, blobName, "classifications");
         }
 
 
