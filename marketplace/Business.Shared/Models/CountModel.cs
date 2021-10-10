@@ -7,6 +7,6 @@ namespace Business.Shared.Models
     {
         public string TokenSeparatedFields { get; set; }
         public string TokenSeparatedValues { get; set; }
-        public DateTime CountAtDateTimeUtc { get; set; }
+        public DateTime PublicationDate { get; set; }
     }
 }

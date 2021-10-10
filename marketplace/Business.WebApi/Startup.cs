@@ -78,6 +78,7 @@ namespace Business.Core.WebApi
             
             services.Configure<FinancialsQueueClient>(Configuration).AddSingleton<FinancialsQueueClient>();
             services.Configure<OrdersQueueClient>(Configuration).AddSingleton<OrdersQueueClient>();
+            services.Configure<FilesQueueClient>(Configuration).AddSingleton<FilesQueueClient>();
 
             services.Configure<FilesTableStore>(Configuration).AddSingleton<FilesTableStore>();
 

@@ -13,8 +13,8 @@ namespace Business.Shared.Repositories
 {
     public interface ITableStorage<T> where T : ITableEntity
     {
-        Task<IEnumerable<T>> ReadItemsAsync(CloudTable cloudTable, string paritionKey = null, EntityResolver<T> entityResolver = null);
-        Task<T> ReadItemAsync(CloudTable cloudTable, string rowId, string partitionKey = null, EntityResolver<T> entityResolver = null);
+        Task<IEnumerable<T>> ReadItemsAsync(string partitionKey = null, EntityResolver<T> entityResolver = null);
+        Task<T> ReadItemAsync(string rowId, string partitionKey = null, EntityResolver<T> entityResolver = null);
         Task<T> CreateItemAsync(T item, string rowId = null, string partitionKey = null);
         Task<T> UpdateItemAsync(T item, string rowId = null, string partitionKey = null);
         Task<T> DeleteItemAsync(T item, string rowId = null, string partitionKey = null);
@@ -72,11 +72,12 @@ namespace Business.Shared.Repositories
 
         public Task<T> DeleteItemAsync(T item, string rowId = null, string partitionKey = null) => throw new NotImplementedException();
 
-        public async Task<T> ReadItemAsync(CloudTable cloudTable, string rowId, string partitionKey = null, EntityResolver<T> entityResolver = null)
+        public async Task<T> ReadItemAsync(string rowId, string partitionKey = null, EntityResolver<T> entityResolver = null)
         {
             try
             {
-                partitionKey ??= cloudTable.Name;
+                cloudTable ??= cloudTableClient.GetTableReference(ResourceName);
+                partitionKey ??= ResourceName;
                 var retrieveOperation = entityResolver is null
                     ? TableOperation.Retrieve<T>(partitionKey, rowId, BaseModelEntityResolver)
                     : TableOperation.Retrieve<T>(partitionKey, rowId, entityResolver);
@@ -96,7 +97,7 @@ namespace Business.Shared.Repositories
             return default(T);
         }
 
-        public async Task<IEnumerable<T>> ReadItemsAsync(CloudTable cloudTable, string partitionKey = null, EntityResolver<T> entityResolver = null)
+        public async Task<IEnumerable<T>> ReadItemsAsync(string partitionKey = null, EntityResolver<T> entityResolver = null)
         {
             var entities = new List<T>();
             try
@@ -104,7 +105,8 @@ namespace Business.Shared.Repositories
                 var dynamicTableEntity = new DynamicTableEntity();
                 dynamicTableEntity.Properties = TableEntity.Flatten(new T(), new OperationContext());
 
-                partitionKey ??= cloudTable.Name;
+                cloudTable ??= cloudTableClient.GetTableReference(ResourceName);
+                partitionKey ??= ResourceName;
                 var filter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
                 var query = new TableQuery<DynamicTableEntity>().Where(filter);
                 var result = entityResolver is null

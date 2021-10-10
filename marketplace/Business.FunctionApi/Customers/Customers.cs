@@ -29,14 +29,14 @@ namespace Business.FunctionApi
             log.LogInformation("C# HTTP trigger function processed customers.");
 
             if (req.Headers["api-key"].ToString() == "temp-api-code") 
-                return new OkObjectResult(await GetCustomers(cloudTable, log));
+                return new OkObjectResult(await GetCustomers(cloudTable.Name, log));
 
             return new UnauthorizedResult();
         }
 
-        private async Task<IEnumerable<Customer>> GetCustomers(CloudTable cloudTable, ILogger log)
+        private async Task<IEnumerable<Customer>> GetCustomers(string partitionKey, ILogger log)
         {
-            var customers = await customerStore.ReadItemsAsync(cloudTable);
+            var customers = await customerStore.ReadItemsAsync(partitionKey);
 
             return customers;
         }

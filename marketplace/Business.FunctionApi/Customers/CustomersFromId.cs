@@ -34,14 +34,14 @@ namespace Business.FunctionApi
                 return new BadRequestResult();
 
             if (req.Headers["api-key"].ToString() == "temp-api-code") 
-                return new OkObjectResult(await GetCustomerFromId(cloudTable, id, log));
+                return new OkObjectResult(await GetCustomerFromId(cloudTable.Name, id, log));
 
             return new UnauthorizedResult();
         }
 
-        private async Task<Customer> GetCustomerFromId(CloudTable cloudTable, string id, ILogger log)
+        private async Task<Customer> GetCustomerFromId(string partitionKey, string id, ILogger log)
         {
-            var customer = await customerStore.ReadItemAsync(cloudTable, id);
+            var customer = await customerStore.ReadItemAsync(partitionKey, id);
 
             return customer;
         }

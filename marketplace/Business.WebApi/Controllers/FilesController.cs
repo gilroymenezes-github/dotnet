@@ -44,7 +44,7 @@ namespace Business.WebApi.Controllers
         [Route("api/[controller]")]
         public async Task<IActionResult> Post([FromBody] FileModel item)
         {
-            await filesCommand.CreateAsync(item);
+            //await filesCommand.CreateAsync(item);
             var response = await filesStorage.CreateItemAsync(item);
             return Ok(response);
         }
