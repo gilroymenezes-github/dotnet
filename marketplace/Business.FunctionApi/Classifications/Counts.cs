@@ -16,7 +16,19 @@ namespace Business.FunctionApi.Classifications
     public class Counts
     {
         readonly CountsTableStore countsStore;
-        readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase  };
+
+        public class ChartModel
+        {
+            public List<DateTime> Labels { get; set; }
+            public List<ChartModelItem> DataSets { get; set; }
+        }
+
+        public class ChartModelItem
+        {
+            public string Label { get; set; }
+            public List<int> Data { get; set; }
+        }
 
         public Counts(CountsTableStore countsStore)
         {
@@ -39,35 +51,50 @@ namespace Business.FunctionApi.Classifications
             //    return response;
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            var counts = await GetCounts();
-            var json = JsonSerializer.Serialize(counts);
+            var chartModel = await GetChartModel();
+            var json = JsonSerializer.Serialize(chartModel, JsonSerializerOptions);
             response.WriteString(json);
 
             return response;
         }
 
-        public async Task<IEnumerable<dynamic>> GetCounts()
+        public async Task<ChartModel> GetChartModel()
         {
             var models = await countsStore.ReadItemsAsync("classifications");
             var groups = models.GroupBy(g => g.Name);
-            var counts = new List<dynamic>();
+            var dates = new List<DateTime>();
+            var resultDictionary = new Dictionary<string, Dictionary<DateTime, int>>();
             foreach (var group in groups)
             {
-                var resultDictionary = new Dictionary<string, int>() { { "A", 0 }, { "B", 0 }, { "C", 0 }, { "D", 0 }, { "E", 0 }, { "F", 0 }, { "G", 0 }, { "H", 0 } };
+                if (!DateTime.TryParseExact(group.Key, "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+                {
+                    continue;
+                }
+                var classificationDictionary = new Dictionary<string, int>() { { "A", 0 }, { "B", 0 }, { "C", 0 }, { "D", 0 }, { "E", 0 }, { "F", 0 }, { "G", 0 }, { "H", 0 } };
                 group.ToList().ForEach(g =>
                 {
                     var groupDictionary = JsonSerializer.Deserialize<Dictionary<string, int>>(g.JsonData, JsonSerializerOptions);
-                    foreach (var kvp in resultDictionary)
+                    foreach (var kvp in classificationDictionary)
                     {
-                        resultDictionary[kvp.Key] += groupDictionary[kvp.Key];
+                        classificationDictionary[kvp.Key] += groupDictionary[kvp.Key];
                     }
                 });
-                if (DateTime.TryParseExact(group.Key, "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+                foreach(var kvp in classificationDictionary)
                 {
-                    counts.Add(new { Date = date, Count = resultDictionary });
+                    if (!resultDictionary.Keys.Contains(kvp.Key)) resultDictionary.Add(kvp.Key, new Dictionary<DateTime, int>());
+                    if (!resultDictionary[kvp.Key].ContainsKey(date)) resultDictionary[kvp.Key].Add(date, kvp.Value);
+                    else resultDictionary[kvp.Key][date] = kvp.Value;
                 }
+                dates.Add(date);
             }
-            return counts;
+            var chartModel = new ChartModel();
+            chartModel.Labels = dates;
+            chartModel.DataSets = new List<ChartModelItem>();
+            foreach(var kvp in resultDictionary)
+            {
+                chartModel.DataSets.Add(new ChartModelItem { Label = kvp.Key, Data = kvp.Value.Select(v => v.Value).ToList() });
+            }
+            return chartModel;
         }
     }
 }
