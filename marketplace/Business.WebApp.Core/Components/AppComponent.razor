@@ -8,11 +8,11 @@
 <AuthorizeView>
     <Authorized>
         <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Path=""></RadzenPanelMenuItem>
             @if(UserRole == ApplicationConstant.SysAdminRoleName)
             {
-                <RadzenPanelMenuItem Text="Landing" Path="landing"></RadzenPanelMenuItem>
+                <RadzenPanelMenuItem Text="Admin" Path="admin"></RadzenPanelMenuItem>
             }
-            <RadzenPanelMenuItem Text="Dashboard" Path="dashboard"></RadzenPanelMenuItem>
         </RadzenPanelMenu>
     </Authorized>
     <NotAuthorized>

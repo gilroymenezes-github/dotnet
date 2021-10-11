@@ -14,16 +14,9 @@ namespace Business.WebApp.Core.Components
     {
         [Inject] public CountsHttpClientWithAuth<CountModel> CountsClient { get; set; }
 
-        List<DataItem> A = new List<DataItem>();
-        List<DataItem> B = new List<DataItem>();
-        List<DataItem> C = new List<DataItem>();
-        List<DataItem> D = new List<DataItem>();
-        List<DataItem> E = new List<DataItem>();
-        List<DataItem> F = new List<DataItem>();
-        List<DataItem> G = new List<DataItem>();
-        List<DataItem> H = new List<DataItem>();
+        Dictionary<string, List<DataItem>> ChartData = new Dictionary<string, List<DataItem>>();
 
-        bool smooth = false;
+        bool smooth = true;
         class DataItem
         {
             public string Date { get; set; }
@@ -31,25 +24,23 @@ namespace Business.WebApp.Core.Components
         }
         protected JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        protected override async Task OnInitializedAsync()
         {
-            if (firstRender) await LoadCounts();
+            await LoadCounts();
         }
 
         public async Task LoadCounts()
         {
             var counts = await CountsClient.GetAsync();
+            if (counts is null) return;
             foreach(var count in counts)
             {
                 var dictionary = JsonSerializer.Deserialize<Dictionary<string, int>>(count.JsonData, JsonSerializerOptions);
-                A.Add(new DataItem() { Date = count.Name, Count = dictionary["A"] });
-                B.Add(new DataItem() { Date = count.Name, Count = dictionary["B"] });
-                C.Add(new DataItem() { Date = count.Name, Count = dictionary["C"] });
-                D.Add(new DataItem() { Date = count.Name, Count = dictionary["D"] });
-                E.Add(new DataItem() { Date = count.Name, Count = dictionary["E"] });
-                F.Add(new DataItem() { Date = count.Name, Count = dictionary["F"] });
-                G.Add(new DataItem() { Date = count.Name, Count = dictionary["G"] });
-                H.Add(new DataItem() { Date = count.Name, Count = dictionary["H"] });
+                foreach(var kvp in dictionary)
+                {
+                    if (!ChartData.Keys.Contains(kvp.Key)) ChartData.Add(kvp.Key, new List<DataItem>());
+                    ChartData[kvp.Key].Add(new DataItem() { Date = count.Name, Count = kvp.Value });
+                }
             }
         }
     }

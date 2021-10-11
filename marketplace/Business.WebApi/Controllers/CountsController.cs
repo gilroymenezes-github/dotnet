@@ -29,7 +29,7 @@ namespace Business.WebApi.Controllers
         {
             var models = await countsStore.ReadItemsAsync("classifications");
             var groups = models.GroupBy(g => g.Name);
-            var response = new List<CountModel>();
+            var counts = new List<CountModel>();
             foreach(var group in groups)
             {
                 var resultDictionary = new Dictionary<string, int>() { { "A", 0 }, { "B", 0 }, { "C", 0 }, { "D", 0 }, { "E", 0 }, { "F", 0 }, { "G", 0 }, { "H", 0 } };
@@ -41,9 +41,9 @@ namespace Business.WebApi.Controllers
                         resultDictionary[kvp.Key] += groupDictionary[kvp.Key];
                     }
                 });
-                response.Add(new CountModel { Name = group.Key, JsonData = JsonSerializer.Serialize(resultDictionary) });
+                counts.Add(new CountModel { Name = group.Key, JsonData = JsonSerializer.Serialize(resultDictionary) });
             }
-            return Ok(response);
+            return Ok(counts);
         }
 
         //[HttpGet("api/[controller]/{id}")]

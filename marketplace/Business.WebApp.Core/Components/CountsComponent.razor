@@ -4,7 +4,14 @@
         <div class="col-sm-12 my-5">
             <label>Smooth <RadzenCheckBox @bind-Value="@smooth" Name="smooth"></RadzenCheckBox></label>
             <RadzenChart>
-                <RadzenLineSeries Smooth="@smooth" Data="@A" CategoryProperty="Date" Title="A" ValueProperty="Count">
+                @foreach(var kvp in ChartData)
+                {
+                    <RadzenLineSeries Smooth="@smooth" Data="@kvp.Value" CategoryProperty="Date" Title="@kvp.Key" ValueProperty="Count">
+                        <RadzenMarkers MarkerType="MarkerType.Auto" />
+                    </RadzenLineSeries>
+
+                }
+                @*<RadzenLineSeries Smooth="@smooth" Data="@A" CategoryProperty="Date" Title="A" ValueProperty="Count">
                     <RadzenMarkers MarkerType="MarkerType.Square" />
                 </RadzenLineSeries>
                 <RadzenLineSeries Smooth="@smooth" Data="@B" CategoryProperty="Date" Title="B" ValueProperty="Count">
@@ -27,7 +34,7 @@
                 </RadzenLineSeries>
                 <RadzenLineSeries Smooth="@smooth" Data="@H" CategoryProperty="Date" Title="H" ValueProperty="Count">
                     <RadzenMarkers MarkerType="MarkerType.Circle" />
-                </RadzenLineSeries>
+                </RadzenLineSeries>*@
                 <RadzenCategoryAxis Padding="20" />
                 <RadzenValueAxis>
                     <RadzenGridLines Visible="true" />

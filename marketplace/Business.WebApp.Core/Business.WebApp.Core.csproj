@@ -15,7 +15,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.10" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-	  <PackageReference Include="Radzen.Blazor" Version="3.11.2" />
+	  <PackageReference Include="Radzen.Blazor" Version="3.11.3" />
 	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.10" />
   </ItemGroup>
 
