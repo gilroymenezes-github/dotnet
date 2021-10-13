@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Business.Shared.Abstractions
 {
-    public abstract class BaseHttpClient<T> : IRestClient<T> where T : BaseModel
+    public abstract class BaseHttpClient<T> where T : BaseModel
     {
         protected HttpClient HttpClient;
         protected JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -43,22 +43,6 @@ namespace Business.Shared.Abstractions
         public abstract Task<T> EditItemAsync(T item);
 
         public abstract Task DeleteItemAsync(string id, bool isHardDelete = false);
-
-        /// <summary>
-        /// Simple how-to reference
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        private async Task<T> PostAsync(T item)
-        {
-            var response = await HttpClient.PostAsync(
-               HttpClient.BaseAddress + $"/{ResourceName}",
-               GetStringContentFromObject(item));
-            var responseAsString = await response.Content.ReadAsStringAsync();
-            return string.IsNullOrEmpty(responseAsString)
-                ? default(T)
-                : JsonSerializer.Deserialize<T>(responseAsString);
-        }
 
         protected StringContent GetStringContentFromObject(object o)
         {

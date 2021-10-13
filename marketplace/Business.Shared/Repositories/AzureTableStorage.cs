@@ -1,9 +1,8 @@
 ﻿using Business.Shared.Abstractions;
 using Business.Shared.Statics;
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Business.Shared.Repositories
 {
-    public interface ITableStorage<T> where T : ITableEntity
+    public interface ITableStorage<T> where T : TableEntity
     {
         Task<IEnumerable<T>> ReadItemsAsync(string partitionKey = null, EntityResolver<T> entityResolver = null);
         Task<T> ReadItemAsync(string rowId, string partitionKey = null, EntityResolver<T> entityResolver = null);
@@ -38,8 +37,6 @@ namespace Business.Shared.Repositories
             cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
             this.logger = logger;
         }
-
-        //public AzureReadWriteTableStorage()  { } // required for http trigggers
 
         private async Task<T> UpsertItem(T item, TableOperation operation, string rowId = null, string partitionKey = null)
         {
