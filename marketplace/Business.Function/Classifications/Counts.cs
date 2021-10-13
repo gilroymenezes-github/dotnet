@@ -24,9 +24,7 @@ namespace Business.Function.Classifications
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
-
-            string name = req.Query["name"];
-
+                        
             var filter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "classifications");
             var query = new TableQuery<ClassificationCountModel>().Where(filter);
             var result = await cloudTable.ExecuteQuerySegmentedAsync(query, new TableContinuationToken());
@@ -37,15 +35,11 @@ namespace Business.Function.Classifications
 
         public static ChartModel GetChartModel(IEnumerable<ClassificationCountModel> models)
         {
-            var groups = models.GroupBy(g => g.Name);
+            var groups = models.GroupBy(g => g.PublicationDate).OrderBy(g => g.Key);
             var dates = new List<DateTime>();
             var resultDictionary = new Dictionary<string, Dictionary<DateTime, int>>();
             foreach (var group in groups)
             {
-                if (!DateTime.TryParseExact(group.Key, "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
-                {
-                    continue;
-                }
                 var classificationDictionary = new Dictionary<string, int>() { { "A", 0 }, { "B", 0 }, { "C", 0 }, { "D", 0 }, { "E", 0 }, { "F", 0 }, { "G", 0 }, { "H", 0 } };
                 group.ToList().ForEach(g =>
                 {
@@ -58,10 +52,10 @@ namespace Business.Function.Classifications
                 foreach (var kvp in classificationDictionary)
                 {
                     if (!resultDictionary.Keys.Contains(kvp.Key)) resultDictionary.Add(kvp.Key, new Dictionary<DateTime, int>());
-                    if (!resultDictionary[kvp.Key].ContainsKey(date)) resultDictionary[kvp.Key].Add(date, kvp.Value);
-                    else resultDictionary[kvp.Key][date] = kvp.Value;
+                    if (!resultDictionary[kvp.Key].ContainsKey(group.Key)) resultDictionary[kvp.Key].Add(group.Key, kvp.Value);
+                    else resultDictionary[kvp.Key][group.Key] = kvp.Value;
                 }
-                dates.Add(date);
+                dates.Add(group.Key);
             }
             var chartModel = new ChartModel();
             chartModel.Labels = dates;
@@ -75,7 +69,7 @@ namespace Business.Function.Classifications
 
         public class ClassificationCountModel : TableEntity
         {
-            public string Name { get; set; }
+            public DateTime PublicationDate { get; set; }
             public string JsonData { get; set; }
         }
 
