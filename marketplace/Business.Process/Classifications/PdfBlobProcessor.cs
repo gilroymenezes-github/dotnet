@@ -21,8 +21,8 @@ namespace Business.Process.Classifications
 {
     internal class PdfBlobProcessor : BackgroundService
     {
-        const string inputFile = @"C:\\Users\\gilroy\\Downloads\\24 Sept part 2";
         const string regexString = @":?[A-Z]\d{2}[A-Z]\d{10},?";
+        const string validCharString = "ABCDEFGH";
 
 
         ILogger<PdfBlobProcessor> logger; 
@@ -45,22 +45,12 @@ namespace Business.Process.Classifications
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await Task.Delay(2000, stoppingToken);
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(2000, stoppingToken);
-                try
-                {
-                    await UpdateFiles();
-                }
-                catch(Exception ex)
-                {
-                    logger.LogError(ex.Message);
-                }
-                finally
-                {
-                    logger.LogInformation("Execute done");
-                }
+                await UpdateFiles();
             }
+            logger.LogInformation("Processed files");
         }
 
 
@@ -70,18 +60,27 @@ namespace Business.Process.Classifications
             foreach (var file in files)
             {
                 if (!string.IsNullOrEmpty(file.Status)) continue;
-                var data = await blobStorage.DownloadBlobAsync(file.Name);
-                await UpdateCounts(file.Name, data);
-                file.Status = "processed";
-                await UpdateFilesFromData(file);
+                await UpdateFileItemForCounts(file);
             }
         }
 
-        private async Task UpdateFilesFromData(FileModel file)
+        private async Task UpdateFileItemForCounts(FileModel file)
         {
-            await filesStore.UpdateItemAsync(file);
+            try
+            {
+                var data = await blobStorage.DownloadBlobAsync(file.Name);
+                await UpdateCounts(file.Name, data);
+                file.Status = "processed";
+                await filesStore.UpdateItemAsync(file);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
+            finally { }
         }
 
+       
         private async Task UpdateCounts(string blobName, byte[] blobData)
         {
             var result = UpdateCountsFromData(blobData);
@@ -101,6 +100,7 @@ namespace Business.Process.Classifications
             {
                 foreach (Page page in document.GetPages())
                 {
+                    logger.LogInformation($"Processing page {page.Number}");
                     IEnumerable<Word> words = page.GetWords();
                     if (!hasPublicationDate)
                     {
@@ -141,6 +141,7 @@ namespace Business.Process.Classifications
 
         private (DateTime PublicationDate, bool HasPublicationDate) UsePublicationDate(IEnumerable<Word> words)
         {
+            var validPublicationDateStrings = new List<string> { "Publication", "Date", ":" };
             var is43Start = default(bool);
             var post43Count = default(int);
             var publicationDate = DateTime.MinValue;
@@ -149,6 +150,11 @@ namespace Business.Process.Classifications
             {
                 if (is43Start)
                 {
+                    if (!validPublicationDateStrings.Contains(word.Text) && post43Count != 3) // ensures '(43) Publication Date : {date}'
+                    {
+                        is43Start = default(bool);
+                        continue;
+                    }
                     sb.Append(word.Text);
                     if (++post43Count < 4) continue;
                     publicationDate = DateTime.TryParseExact(word.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out publicationDate) 
@@ -196,16 +202,53 @@ namespace Business.Process.Classifications
 
         private IDictionary<string, int> UseAggregateCount(IEnumerable<string> inputs)
         {
-            string firstCharString = inputs
-                .Where(s => !string.IsNullOrEmpty(s))
-                .Aggregate("", (xs, x) => xs + x.First());
-            
+            var firstCharString = UseFirstCharString(inputs);            
             IDictionary<string, int> result = new Dictionary<string, int>();
             foreach (var first in firstCharString.ToCharArray().Distinct())
             {
                 result[first.ToString()] = 1;
             }
             return result;
+        }
+
+        private string UseFirstCharString(IEnumerable<string> inputs)
+        {
+            var validKeyChars = validCharString.ToCharArray(); 
+            string firstCharString = inputs
+                .Where(s => !string.IsNullOrEmpty(s))
+                .Aggregate("", (xs, x) => xs + x.First());
+            var badFirstChar = firstCharString.ToCharArray().Where(c => !validKeyChars.Contains(c));
+            if (badFirstChar.Any())
+            {
+                logger.LogInformation($"Attempting fix for first char in {firstCharString}");
+                firstCharString = UseFirstCharStringWithFix(inputs);
+            }
+            return firstCharString;
+        }
+
+        private string UseFirstCharStringWithFix(IEnumerable<string> inputs)
+        {
+            var sb = new StringBuilder();
+            foreach (var input in inputs)
+            {
+                if (string.IsNullOrEmpty(input)) continue;
+                var firstChar = input.Take(1).First();
+                if (validCharString.Contains(firstChar))
+                {
+                    sb.Append(firstChar);
+                }
+                else 
+                {
+                    var inputMinusFirst = input.Trim(firstChar);
+                    firstChar = inputMinusFirst.Take(1).First();
+                    if (validCharString.Contains(firstChar))
+                    {
+                        sb.Append(firstChar);
+                    }
+                    else sb.Append(firstChar);
+                }
+            }
+            return sb.ToString();
         }
 
         private bool UseRegex(string input)
