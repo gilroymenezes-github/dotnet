@@ -44,7 +44,7 @@ const populateValues = (data) => {
         inputs.forEach((input, i) => {
             input.value = data.board[i]
         })
-        solutionText.innerHTML = `Puzzle ${data.name} solved on ${data.dateTimeStamp}`
+        solutionText.innerHTML = `Puzzle <strong>${data.name}</strong> solved on ${data.dateTimeStamp}`
     } else {
         solutionText.innerHTML = `Puzzle not solvable`
     }
@@ -59,7 +59,7 @@ const solve = () => {
             'content-type': 'application/json',
         },
         data: {
-            "name": "first",
+            "name": puzzleName.innerHTML,
             "board": submission,
             "solvable": true,
             "dateTimeStamp": new Date()
