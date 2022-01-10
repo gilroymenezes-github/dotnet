@@ -54,7 +54,8 @@ const solve = () => {
     joinValues()
     var options = {
         method: 'POST',
-        url: 'https://sudokuopenapiexample.azurewebsites.net/api/sudoku-solver-post',
+        //url: 'https://sudokuopenapiexample.azurewebsites.net/api/sudoku-solver-post',
+        url: 'https://sudokuopenapiexample-apim.azure-api.net/sudoku-solver-post',
         headers: {
             'content-type': 'application/json',
         },
