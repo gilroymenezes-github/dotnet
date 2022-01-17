@@ -9,25 +9,68 @@ namespace Sudoku
 {
     internal class SudokuBoard
     {
+        private bool isValidBoardData = default(bool);
         private short[,] board = new short[9, 9];
         private ILogger logger;
 
         public SudokuBoard(SudokuData data, ILogger logger)
         {
             this.logger = logger;
+
+            isValidBoardData = IsValidBoardData(data.Board);
+
             BuildBoard(data);
         }
 
-        internal SudokuData CheckAndSolveSudoku(SudokuData sudokuData)
+        private bool IsValidBoardData(short[] items)
         {
-            if (sudokuData.Board == null || sudokuData.Board.Length == 0) return sudokuData;
-            if (sudokuData.Board.Length != 81) return sudokuData;
-            
-            SolveBoard(); // solver algo
-            
+            if (items == null || items.Length == 0) return default(bool);
+            if (items.Length != 81) return default(bool);
+
+            var hasNoRepeats = true;
+            var i = 0;
+            var splits = from item in items
+                         group item by i++ % 9 into part
+                         select part.ToList();
+            splits.ToList().ForEach(s =>
+            {
+                hasNoRepeats = hasNoRepeats && HasNoRepeats(s);
+            });
+            for (i = 0; i < 9; i++)
+            {
+                var s = items.Skip(i * 9).Take(9).ToList();
+                hasNoRepeats = hasNoRepeats && HasNoRepeats(s);
+            }
+
+            return hasNoRepeats;
+        }
+
+        private bool HasNoRepeats(List<short> blocks)
+        {
+            var distincts = new List<short>();
+            foreach (var item in blocks)
+            {
+                if (item == 0) continue;
+                if (item > 9) return false;
+                if (item < 0) return false;
+                if (distincts.Contains(item)) return false;
+                distincts.Add(item);
+            }
+            return true;
+        }
+
+        internal SudokuData SolveSudoku(SudokuData sudokuData)
+        {
+            if (!isValidBoardData)
+            {
+                sudokuData.Solvable = isValidBoardData;
+                return sudokuData;
+            }
+
+            sudokuData.Solvable = SolveBoard(); // solver algo
             sudokuData.Board = FlattenBoard();
             sudokuData.DateTimeStamp = DateTime.UtcNow;
-
+           
             return sudokuData;
         }
 

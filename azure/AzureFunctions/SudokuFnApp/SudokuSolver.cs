@@ -48,15 +48,27 @@ namespace Sudoku
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<SudokuData>(requestBody);
+            var data = new SudokuData();
+            try
+            {
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                data = JsonConvert.DeserializeObject<SudokuData>(requestBody);
 
-            //data.Board = new short[] { 5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9 };
-            
-            var sudoku = new SudokuBoard(data, log);
-            var solved = sudoku.CheckAndSolveSudoku(data);
+                //data.Board = new short[] { 5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9 };
 
-            return new OkObjectResult(solved);
+                var sudoku = new SudokuBoard(data, log);
+                var solved = sudoku.SolveSudoku(data);
+
+                return new OkObjectResult(solved);
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex.Message);
+                data.ErrorMessage = ex.Message;
+                data.Solvable = default(bool);
+                return new BadRequestObjectResult(data);
+            }
+            finally { }
         }
     }
 }
