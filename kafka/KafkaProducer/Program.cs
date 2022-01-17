@@ -10,7 +10,7 @@ for (int i = 0; i < 25; i++)
 {
     await producer.ProducerAsync(new Message
     {
-        Data = $"Pushing Data {i} !!",
+        Data = $"Publish Data {i} !!",
     });
 
     await Task.Delay(1000);
