@@ -1,0 +1,74 @@
+﻿@page "/pizzabrowser"
+@inject PizzaService PizzaServiceInjected;
+
+<h3>Welcome to blazing pizza!</h3>
+
+<p>@welcomeMessage</p>
+
+<ul>
+    @if(specials != null)
+    {
+        @foreach (var special in specials)
+        {
+            <li>
+                <div>
+                    <span>@special.Name</span>
+                    <span>@special.Description</span>
+                    <span>@special.BasePrice</span>
+                </div>
+            </li>
+        }
+    }
+</ul>
+
+@if(specials is null) {
+    <p>Loading...</p>
+}
+else {
+    <table>
+        <thead>
+            <tr>
+                <th class="col-sm-3">Pizza Name</th>
+                <th class="col-sm-3">Pizza Price</th>
+                <th class="col-sm-3">About The Pizza</th>
+                <th class="col-sm-3">Vegetarian?</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var special in specials)
+            {
+                <tr>
+                    <td>@special.Name</td>
+                    <td>@special.BasePrice</td>
+                    <td>@special.Description</td>
+                    <td>@special.IsVegetarian</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private string welcomeMessage = "However you like your pizza, we can deliver fast";
+    private decimal tax = 1.00M;
+    List<PizzaSpecial> specials = new();
+
+    protected override void OnInitialized()
+    {
+        var pizzas = PizzaServiceInjected.GetPizzas();
+        pizzas.ForEach(pizza => {
+            specials.Add(new PizzaSpecial {
+                Name = pizza.Name, 
+                BasePrice = pizza.Price + tax,
+                Description = pizza.Description,
+                IsVegetarian =pizza.IsVegetarian
+            });
+        });
+        /* specials.AddRange(new List<PizzaSpecial>
+        {
+            new PizzaSpecial{ Name = "The Godfather", BasePrice = 11.99M, Description = "Just like the movies." },
+            new PizzaSpecial{ Name = "Hawaiian", BasePrice = 12.99M, Description = "Mmmm pineapple." },
+            new PizzaSpecial { Name = "Margarita", BasePrice = 8.99M, Description = "Tomato basil cheese." }
+        }); */
+    }
+}
