@@ -1,6 +1,7 @@
 using Amazon.S3;
 using Awss3.Api.Interfaces;
 using Awss3.Api.Repositories;
+using Awss3.Api.Services;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Text.Json;
 
@@ -12,6 +13,7 @@ var configuration = builder.Configuration;
 builder.Services.AddAWSService<IAmazonS3>(configuration.GetAWSOptions());
 builder.Services.AddSingleton<IBucketsRepository, BucketsRepository>();
 builder.Services.AddSingleton<IFilesRepository, FilesRepository>();
+builder.Services.AddSingleton<ILabelsService, LabelsService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
