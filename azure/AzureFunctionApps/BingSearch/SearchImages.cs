@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace BingSearch
 {
-    public class ImageSearch
+    public class SearchImages
     {
-        private readonly ILogger<ImageSearch> _logger;
+        private readonly ILogger<SearchImages> _logger;
         
         private const string QUERY_PARAMETER = "?q=";  // Required
         private const string MKT_PARAMETER = "&mkt=";  // Strongly suggested
@@ -44,16 +44,16 @@ namespace BingSearch
         private string _clientIdHeader;
         private long _nextOffset = 0;
 
-        public ImageSearch(ILogger<ImageSearch> log)
+        public SearchImages(ILogger<SearchImages> log)
         {
             _logger = log;
         }
 
-        [FunctionName("image-search")]
-        [OpenApiOperation(operationId: "ImageSearch", tags: new[] { "phrase" })]
+        [FunctionName("search-images")]
+        [OpenApiOperation(operationId: "GetSearchImagesResult", tags: new[] { "phrase" })]
         [OpenApiParameter(name: "phrase", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **search phrase** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
-        public async Task<IActionResult> GetImageSearchResults(
+        public async Task<IActionResult> GetSearchImagesResult(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");

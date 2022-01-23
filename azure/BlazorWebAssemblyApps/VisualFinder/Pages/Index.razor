@@ -1,0 +1,52 @@
+﻿@page "/"
+@inject IJSRuntime JSR
+@inject HttpClient HCI
+@inject ILogger<Index> ILOG
+
+<PageTitle>Index</PageTitle>
+
+<h1>Visual Finder</h1>
+
+<video id="webCameraFeed" width="320" height="240" />
+<canvas class="d-none" id="webCameraCanvas" width="320" height="240" /><br />
+<button class="btn btn-primary" @onclick=SearchButtonClicked>Search</button>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await JSR.InvokeVoidAsync("startWebCamera", "webCameraFeed");
+    }
+
+    protected async Task SearchButtonClicked()
+    {
+        await JSR.InvokeAsync<string>("getWebCameraImageFrame", "webCameraFeed", "webCameraCanvas", DotNetObjectReference.Create(this));
+    }
+
+    [JSInvokable]
+    public async void ProcessImage(string imageString)
+    {
+        byte[] imageData = Convert.FromBase64String(imageString.Split(',')[1]);
+
+        var multipartFormContent = new MultipartFormDataContent();
+        multipartFormContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data");
+        //var stream = new MemoryStream(imageData);
+        //var sc = new StreamContent(stream, (int)stream.Length);
+        var bytearrayContent = new ByteArrayContent(imageData);
+
+        multipartFormContent.Add(bytearrayContent);
+        try
+        {
+            var response = await HCI.PostAsync("images", multipartFormContent);
+            var data = await response.Content.ReadFromJsonAsync<dynamic>();        
+        }
+        catch(Exception ex)
+        {
+            ILOG.LogError(ex.Message.ToString());
+        }
+        finally
+        {
+            
+        }
+
+    }
+}

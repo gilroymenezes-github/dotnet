@@ -1,0 +1,77 @@
+﻿@page "/"
+@using VisualFinder.Contracts
+@inject IJSRuntime JSR
+@inject HttpClient HCI
+@inject ILogger<Index> ILOG
+
+<PageTitle>Index</PageTitle>
+
+<h1>Visual Finder</h1>
+
+<video id="webCameraFeed" width="320" height="240" />
+<canvas class="d-none" id="webCameraCanvas" width="320" height="240" /><br />
+<button class="btn btn-primary" @onclick=SearchButtonClicked>Search</button>
+
+<div>
+    @if (labels is null) { }
+    else
+    {
+        <table>
+            <thead>
+                <tr class="row">
+                    <th class="col-4">Name</th>
+                    <th class="col-4">Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var label in labels)
+                {
+                <tr class="row">
+                    <td class="col-4">@label.Name</td>
+                    <td class="col-4">@label.Confidence</td>
+                </tr>    
+                }
+            </tbody>
+        </table>
+    }
+    
+</div>
+
+@code {
+    private List<(string Name, float Confidence)> labels = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) await JSR.InvokeVoidAsync("startWebCamera", "webCameraFeed");
+    }
+
+    protected async Task SearchButtonClicked()
+    {
+        await JSR.InvokeAsync<string>("getWebCameraImageFrame", "webCameraFeed", "webCameraCanvas", DotNetObjectReference.Create(this));
+    }
+
+    [JSInvokable]
+    public async void ProcessImage(string imageString)
+    {
+        byte[] imageData = Convert.FromBase64String(imageString.Split(',')[1]);
+
+        var multipartFormContent = new MultipartFormDataContent();
+        var bytearrayContent = new ByteArrayContent(imageData);
+
+        multipartFormContent.Add(bytearrayContent, "req", "temp.jpg");
+        try
+        {
+            var response = await HCI.PostAsync("images", multipartFormContent);
+            var data = await response.Content.ReadFromJsonAsync<IEnumerable<DetectLabelsResponse>>();        
+        }
+        catch(Exception ex)
+        {
+            ILOG.LogError(ex.Message.ToString());
+        }
+        finally
+        {
+            
+        }
+
+    }
+}
