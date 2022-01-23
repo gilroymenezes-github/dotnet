@@ -1,5 +1,6 @@
 using Amazon.Rekognition;
 using Amazon.Rekognition.Model;
+using Amazon.Runtime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -41,7 +42,8 @@ namespace AwsRekog
             ms.Seek(0, SeekOrigin.Begin);
             image.Bytes = ms;
 
-            var rekognitionClient = new AmazonRekognitionClient();
+            var credentials = new BasicAWSCredentials("AKIAXAC3BZOYNXHZFEPM", "ud1QjT88KpouEncR1koSTWt7tTJgIkBQjWLMtK/z");
+            var rekognitionClient = new AmazonRekognitionClient(credentials, Amazon.RegionEndpoint.APSouth1);
             var detectLabelsRequest = new DetectLabelsRequest
             {
                 Image = image,

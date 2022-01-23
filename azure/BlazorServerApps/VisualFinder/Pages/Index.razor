@@ -41,20 +41,31 @@
         }
         </div>
     </div>
+    <hr />
     <div>
-        @if(urls is null) { }
+        @if(images is null) { }
         else
         {
-            @foreach(var url in urls)
+            <table>
+                <thead>
+                    <tr><th class="col-9">Name</th><th class="col-3">Image</th></tr>
+                </thead>
+            @foreach(var image in images)
             {
-                <img src=@url alt=@url width="320" />
+                <tr>
+                    <td class="col-9">@image.Name</td>
+                    <td class="col-3">
+                        <img src=@image.Url alt=@image.Url width="80" />
+                    </td>
+                </tr>
             }    
+            </table>
         }
     </div>
 </div>
 @code {
     private List<DetectLabelsResponse> labels = new();
-    private List<SearchImagesResponse> urls = new();
+    private List<SearchImagesResponse> images = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -97,9 +108,9 @@
         try
         {
             //string labelName = string.Empty;
-            var response = await HCI.GetAsync($"https://search-images.azurewebsites.net/api/search-images?name={labelName}");
+            var response = await HCI.GetAsync($"https://search-images.azurewebsites.net/api/search-images?phrase={labelName}");
             var data = await response.Content.ReadFromJsonAsync<IEnumerable<SearchImagesResponse>>();
-            urls = data?.ToList() ?? new();
+            images = data?.ToList() ?? new();
         }
         catch(Exception ex)
         {
@@ -107,7 +118,7 @@
         }
         finally
         {
-            StateHasChanged();
+            //StateHasChanged();
         }
     }
 }
