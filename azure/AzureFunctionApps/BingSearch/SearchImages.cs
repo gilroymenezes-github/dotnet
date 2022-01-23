@@ -55,7 +55,7 @@ namespace BingSearch
         [FunctionName("search-images")]
         [OpenApiOperation(operationId: "GetSearchImagesResult", tags: new[] { "phrase" })]
         [OpenApiParameter(name: "phrase", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **search phrase** parameter")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(IEnumerable<SearchImagesResult>), Description = "The OK response")]
         public async Task<IActionResult> GetSearchImagesResult(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req)
         {
@@ -63,12 +63,14 @@ namespace BingSearch
 
             string phrase = req.Query["phrase"];
 
-            var responseMessage = await RunSearchImagesAsync(phrase);
+            var responseResults = await RunSearchImagesAsync(phrase);
+
+            var responseMessage = System.Text.Json.JsonSerializer.Serialize<IEnumerable<SearchImagesResult>>(responseResults);
 
             return new OkObjectResult(responseMessage);
         }
 
-        async Task<IEnumerable<string>> RunSearchImagesAsync(string searchString)
+        async Task<IEnumerable<SearchImagesResult>> RunSearchImagesAsync(string searchString)
         {
             var sb = new StringBuilder(QUERY_PARAMETER + Uri.EscapeDataString(searchString));
             sb.Append(SAFE_SEARCH_PARAMETER + SafeSearchEnum.Strict.ToString());
@@ -80,13 +82,16 @@ namespace BingSearch
             var json = await response.Content.ReadAsStringAsync();
             var jsonElement = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(json);
             var jsonPropertyValues = jsonElement.GetProperty("value");
-            var responseValues = new List<string>();
+            var responseValues = new List<SearchImagesResult>();
             for(var i = 0; i < 4; i++)
             {
-                responseValues.Add(jsonPropertyValues[i].GetProperty("contentUrl").GetString());
+                responseValues.Add(new SearchImagesResult
+                {
+                    Name = jsonPropertyValues[i].GetProperty("name").GetString(),
+                    Url = jsonPropertyValues[i].GetProperty("contentUrl").GetString(),
+                });
             }
             return responseValues;
-            //return await response.Content.ReadAsStringAsync();
         }
              
         async Task<HttpResponseMessage> MakeRequestAsync(string queryString)
