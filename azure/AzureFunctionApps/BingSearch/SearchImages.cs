@@ -6,8 +6,11 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BingSearch
@@ -60,19 +63,30 @@ namespace BingSearch
 
             string phrase = req.Query["phrase"];
 
-            var responseMessage = await RunImageSearchAsync(phrase);
+            var responseMessage = await RunSearchImagesAsync(phrase);
 
             return new OkObjectResult(responseMessage);
         }
 
-        async Task<string> RunImageSearchAsync(string searchString)
+        async Task<IEnumerable<string>> RunSearchImagesAsync(string searchString)
         {
-            var queryString = QUERY_PARAMETER + Uri.EscapeDataString(searchString);
-            queryString += MKT_PARAMETER + "en-us";
+            var sb = new StringBuilder(QUERY_PARAMETER + Uri.EscapeDataString(searchString));
+            sb.Append(SAFE_SEARCH_PARAMETER + SafeSearchEnum.Strict.ToString());
+            sb.Append(MKT_PARAMETER + "en-us");
+            var queryString = sb.ToString();
 
             HttpResponseMessage response = await MakeRequestAsync(queryString);
 
-            return await response.Content.ReadAsStringAsync();
+            var json = await response.Content.ReadAsStringAsync();
+            var jsonElement = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(json);
+            var jsonPropertyValues = jsonElement.GetProperty("value");
+            var responseValues = new List<string>();
+            for(var i = 0; i < 4; i++)
+            {
+                responseValues.Add(jsonPropertyValues[i].GetProperty("contentUrl").GetString());
+            }
+            return responseValues;
+            //return await response.Content.ReadAsStringAsync();
         }
              
         async Task<HttpResponseMessage> MakeRequestAsync(string queryString)

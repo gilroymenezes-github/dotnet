@@ -22,5 +22,5 @@ function getWebCameraImageFrame(src, dest, dotnetHelper) {
     let canvas = document.getElementById(dest);
     canvas.getContext('2d').drawImage(video, 0, 0, 320, 240);
     let dataUrl = canvas.toDataURL("image/jpeg");
-    dotnetHelper.invokeMethodAsync("ProcessImage", dataUrl);
+    dotnetHelper.invokeMethodAsync("DetectLabels", dataUrl);
 }

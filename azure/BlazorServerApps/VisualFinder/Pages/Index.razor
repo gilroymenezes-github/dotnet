@@ -8,37 +8,51 @@
 
 <h1>Visual Finder</h1>
 
-<video id="webCameraFeed" width="320" height="240" />
-<canvas class="d-none" id="webCameraCanvas" width="320" height="240" /><br />
-<button class="btn btn-primary" @onclick=SearchButtonClicked>Search</button>
-
-<div>
-    @if (labels is null) { }
-    else
-    {
-        <table>
-            <thead>
-                <tr class="row">
-                    <th class="col-4">Name</th>
-                    <th class="col-4">Confidence</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var label in labels)
-                {
-                <tr class="row">
-                    <td class="col-4">@label.Name</td>
-                    <td class="col-4">@label.Confidence</td>
-                </tr>    
-                }
-            </tbody>
-        </table>
-    }
-    
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <video id="webCameraFeed" width="320" height="240" />
+            <canvas class="d-none" id="webCameraCanvas" width="320" height="240" /><br />
+            <button class="btn btn-sm btn-primary" @onclick=SearchButtonClicked>Search</button>
+        </div>
+        <div class="col-6">
+        @if (labels is null) { }
+        else
+        {
+            <table>
+                <thead>
+                    <tr class="row">
+                        <th class="col-6">Name</th>
+                        <th class="col-6">Confidence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var label in labels)
+                    {
+                    <tr class="row">
+                        <td class="col-6"><button class="btn btn-link">@label.Name</button></td>
+                        <td class="col-6 p-2">@label.Confidence</td>
+                    </tr>    
+                    }
+                </tbody>
+            </table>
+        }
+        </div>
+    </div>
+    <div>
+        @if(urls is null) { }
+        else
+        {
+            @foreach(var url in urls)
+            {
+                <img src=@url alt=@url width="320" />
+            }    
+        }
+    </div>
 </div>
-
 @code {
-    private List<(string Name, float Confidence)> labels = new();
+    private List<DetectLabelsResponse> labels = new();
+    private List<string> urls = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -51,7 +65,7 @@
     }
 
     [JSInvokable]
-    public async void ProcessImage(string imageString)
+    public async void DetectLabels(string imageString)
     {
         byte[] imageData = Convert.FromBase64String(imageString.Split(',')[1]);
 
@@ -61,9 +75,9 @@
         multipartFormContent.Add(bytearrayContent, "req", "temp.jpg");
         try
         {
-            var response = await HCI.PostAsync("detect-labels", multipartFormContent);
+            var response = await HCI.PostAsync("http://localhost:7071/api/detect-labels", multipartFormContent);
             var data = await response.Content.ReadFromJsonAsync<IEnumerable<DetectLabelsResponse>>();
-            //labels = data.Select(d => new(d.Name, d.Confidence));
+            labels = data?.Select(d => new DetectLabelsResponse { Name = d.Name, Confidence = d.Confidence }).ToList() ?? new();
         }
         catch(Exception ex)
         {
@@ -71,8 +85,13 @@
         }
         finally
         {
-            
+            StateHasChanged();   
         }
 
+    }
+
+    public async Task SearchImage(string labelName)
+    {
+        
     }
 }
