@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
@@ -35,14 +36,16 @@ namespace AwsRekog
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             var image = new Amazon.Rekognition.Model.Image();
-
+            
             using var ms = new MemoryStream();
             var file = req.Form.Files[0];
             await file.CopyToAsync(ms);
             ms.Seek(0, SeekOrigin.Begin);
             image.Bytes = ms;
 
-            var credentials = new BasicAWSCredentials("AKIAXAC3BZOYNXHZFEPM", "ud1QjT88KpouEncR1koSTWt7tTJgIkBQjWLMtK/z");
+            var accessKey = System.Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
+            var secretKey = System.Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
+            var credentials = new BasicAWSCredentials(accessKey, secretKey);
             var rekognitionClient = new AmazonRekognitionClient(credentials, Amazon.RegionEndpoint.APSouth1);
             var detectLabelsRequest = new DetectLabelsRequest
             {
