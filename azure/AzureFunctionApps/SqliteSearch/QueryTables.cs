@@ -61,7 +61,7 @@ namespace SqliteDb
                 {
                     searchTablesResultItem.CategoryName = sqliteDataReader.GetString(0);
                     searchTablesResultItem.ProductName = sqliteDataReader.GetString(1);
-                    searchTablesResultItem.ImageUrl = sqliteDataReader.GetString(2);
+                    searchTablesResultItem.ImageUrl = sqliteDataReader.GetString(2).Split("|")[0];
                     response.Add(searchTablesResultItem);
                 }
                 
