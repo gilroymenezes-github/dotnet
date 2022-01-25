@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearch", "BingSearch.csproj", "{65E76A64-3821-4460-95BC-362DAB44DB46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwsRekog", "..\AwsRekog\AwsRekog.csproj", "{117AE675-C5C7-48EF-B4D4-BF92A0477ED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwsRekog", "..\AwsRekog\AwsRekog.csproj", "{117AE675-C5C7-48EF-B4D4-BF92A0477ED1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteDb", "..\SqliteSearch\SqliteDb.csproj", "{F6D043D2-E64A-43AF-AAF5-108EED22304A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{117AE675-C5C7-48EF-B4D4-BF92A0477ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{117AE675-C5C7-48EF-B4D4-BF92A0477ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{117AE675-C5C7-48EF-B4D4-BF92A0477ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D043D2-E64A-43AF-AAF5-108EED22304A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D043D2-E64A-43AF-AAF5-108EED22304A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D043D2-E64A-43AF-AAF5-108EED22304A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D043D2-E64A-43AF-AAF5-108EED22304A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
