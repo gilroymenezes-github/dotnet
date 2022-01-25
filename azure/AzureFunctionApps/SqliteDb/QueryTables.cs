@@ -52,9 +52,9 @@ namespace SqliteDb
                 var sqliteDataReader = await sqliteCommand.ExecuteReaderAsync();
                 while (sqliteDataReader.HasRows)
                 {
-                    var searchTablesResultItem = new QueryTablesResult();
                     while (sqliteDataReader.Read())
                     {
+                        var searchTablesResultItem = new QueryTablesResult();
                         searchTablesResultItem.CategoryName = sqliteDataReader.GetString(0);
                         searchTablesResultItem.ProductName = sqliteDataReader.GetString(1);
                         searchTablesResultItem.ImageUrl = sqliteDataReader.GetString(2).Split("|")[0];
