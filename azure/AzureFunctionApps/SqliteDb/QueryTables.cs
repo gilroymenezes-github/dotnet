@@ -25,7 +25,7 @@ namespace SqliteDb
         }
 
         [FunctionName("query-tables")]
-        [OpenApiOperation(operationId: "GetQueryTablesResult", tags: new[] { "phrase", "count" })]
+        [OpenApiOperation(operationId: "GetQueryTablesResult", tags: new[] { "query-tables" })]
         [OpenApiParameter(name: "phrase", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **Search Phrase** parameter")]
         [OpenApiParameter(name: "count", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "The **Count Limit** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
@@ -39,32 +39,32 @@ namespace SqliteDb
             //var limit = int.TryParse(count, out int c) ? c : 5;
             var limit = req.Query["count"];
 
-            var sqliteConnection = new SQLiteConnection(@"Data Source=Data\amazon_sample.db; Version = 3; New = True; Compress = True;");
+            var response = new List<QueryTablesResult>();
+
+            var home = Environment.GetEnvironmentVariable("HOME") ?? "";
+            var dbPath = Path.Combine(home, "data", "amazon_sample.db");
+            var sqliteConnection = new SQLiteConnection($"Data Source={dbPath}; Version = 3; New = True; Compress = True;");
             try
             {
                 sqliteConnection.Open();
+                var sqliteCommand = sqliteConnection.CreateCommand();
+                sqliteCommand.CommandText = $"SELECT Category, ProductName, Image FROM amazon_sample WHERE Category LIKE '%{phrase}%' LIMIT {limit}";
+                var sqliteDataReader = await sqliteCommand.ExecuteReaderAsync();
+                while (sqliteDataReader.HasRows)
+                {
+                    var searchTablesResultItem = new QueryTablesResult();
+                    while (sqliteDataReader.Read())
+                    {
+                        searchTablesResultItem.CategoryName = sqliteDataReader.GetString(0);
+                        searchTablesResultItem.ProductName = sqliteDataReader.GetString(1);
+                        searchTablesResultItem.ImageUrl = sqliteDataReader.GetString(2).Split("|")[0];
+                        response.Add(searchTablesResultItem);
+                    }
+                }
             }
             catch(Exception ex)
             {
-                return new BadRequestObjectResult(ex.Message);
-            }
-
-            var response = new List<SearchTablesResult>();
-
-            var sqliteCommand = sqliteConnection.CreateCommand();
-            sqliteCommand.CommandText = $"SELECT Category, ProductName, Image FROM amazon_sample WHERE Category LIKE '%{phrase}%' LIMIT {limit}";
-            var sqliteDataReader = await sqliteCommand.ExecuteReaderAsync();
-            while(sqliteDataReader.HasRows)
-            {
-                var searchTablesResultItem = new SearchTablesResult();
-                while(sqliteDataReader.Read())
-                {
-                    searchTablesResultItem.CategoryName = sqliteDataReader.GetString(0);
-                    searchTablesResultItem.ProductName = sqliteDataReader.GetString(1);
-                    searchTablesResultItem.ImageUrl = sqliteDataReader.GetString(2).Split("|")[0];
-                    response.Add(searchTablesResultItem);
-                }
-                
+                return new BadRequestObjectResult($"Error {ex.Message} for {dbPath}");
             }
                         
             return new OkObjectResult(response);

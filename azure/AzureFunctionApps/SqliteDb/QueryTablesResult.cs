@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SqliteDb
 {
-    internal class SearchTablesResult
+    internal class QueryTablesResult
     {
         public string CategoryName { get; set; }   
         public string ProductName { get; set; }

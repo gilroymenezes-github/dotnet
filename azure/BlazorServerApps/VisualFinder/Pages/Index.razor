@@ -31,7 +31,7 @@
                     {
                     <tr class="row">
                         <td class="col-6">
-                            <button class="btn btn-link" @onclick="@((e) => SearchImagesClicked(e, @label.Name))">@label.Name</button>
+                            <button class="btn btn-link" @onclick="@((e) => QueryTablesClicked(e, @label.Name))">@label.Name</button>
                         </td>
                         <td class="col-6 p-2">@label.Confidence</td>
                     </tr>    
@@ -43,19 +43,24 @@
     </div>
     <hr />
     <div>
-        @if(images is null) { }
+        @if(items is null) { }
         else
         {
             <table>
                 <thead>
-                    <tr><th class="col-9">Name</th><th class="col-3">Image</th></tr>
+                    <tr>
+                        <th class="col-3">Product</th>
+                        <th class="col-3">Category</th>
+                        <th class="col-3">Image</th>
+                    </tr>
                 </thead>
-            @foreach(var image in images)
+            @foreach(var item in items)
             {
                 <tr>
-                    <td class="col-9">@image.Name</td>
+                    <td class="col-3">@item.ProductName</td>
+                    <td class="col-3">@item.CategoryName</td>
                     <td class="col-3">
-                        <img src=@image.Url alt=@image.Url width="80" />
+                        <img src=@item.ImageUrl alt=@item.ImageUrl width="80" />
                     </td>
                 </tr>
             }    
@@ -66,6 +71,7 @@
 @code {
     private List<DetectLabelsResponse> labels = new();
     private List<SearchImagesResponse> images = new();
+    private List<QueryTablesResponse> items = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -101,6 +107,22 @@
             StateHasChanged();   
         }
 
+    }
+
+    protected async Task QueryTablesClicked(MouseEventArgs e, string? labelName)
+    {
+        try
+        {
+            var response = await HCI.GetAsync($"https://query-tables.azurewebsites.net/api/query-tables?phrase={labelName}&count=100");
+            var data = await response.Content.ReadFromJsonAsync<IEnumerable<QueryTablesResponse>>();
+            items = data?.ToList() ?? new();
+        }
+        catch (Exception ex)
+        {
+            ILOG.LogError(ex.Message.ToString());
+        }
+        finally
+        { }
     }
 
     protected async Task SearchImagesClicked(MouseEventArgs e, string? labelName)

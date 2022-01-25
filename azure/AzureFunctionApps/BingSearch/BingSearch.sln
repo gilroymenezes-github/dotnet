@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearch", "BingSearch.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AwsRekog", "..\AwsRekog\AwsRekog.csproj", "{117AE675-C5C7-48EF-B4D4-BF92A0477ED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteDb", "..\SqliteSearch\SqliteDb.csproj", "{F6D043D2-E64A-43AF-AAF5-108EED22304A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteDb", "..\SqliteDb\SqliteDb.csproj", "{F6D043D2-E64A-43AF-AAF5-108EED22304A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
