@@ -2,7 +2,10 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
+// Add Azure SignalR services: NOTE: Use Azure_SignalR_ConnectionString as key in AppService
+builder.Services.AddSignalR().AddAzureSignalR(configuration["Azure:SignalR:ConnectionString"]);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
