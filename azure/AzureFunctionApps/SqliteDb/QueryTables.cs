@@ -48,7 +48,7 @@ namespace SqliteDb
             {
                 sqliteConnection.Open();
                 var sqliteCommand = sqliteConnection.CreateCommand();
-                sqliteCommand.CommandText = $"SELECT Category, ProductName, Image FROM amazon_sample WHERE Category LIKE '% {phrase} %' LIMIT {limit}";
+                sqliteCommand.CommandText = $"SELECT Category, ProductName, Image FROM amazon_sample WHERE Category LIKE '% {phrase}%' LIMIT {limit}"; // space before phrase...
                 var sqliteDataReader = await sqliteCommand.ExecuteReaderAsync();
                 while (sqliteDataReader.HasRows)
                 {
