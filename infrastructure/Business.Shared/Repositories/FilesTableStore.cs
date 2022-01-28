@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Repositories
 {
-    public class FilesTableStore : AzureTableStorage<FileModel>
+    public class FilesTableStore : AzureTableStorage<FileEntity>
     {
         public FilesTableStore(
             IConfiguration configuration, 

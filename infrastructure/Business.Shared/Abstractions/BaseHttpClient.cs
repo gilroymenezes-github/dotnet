@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Abstractions
 {
-    public abstract class BaseHttpClient<T> where T : BaseModel
+    public abstract class BaseHttpClient<T> where T : BaseEntity
     {
         protected HttpClient HttpClient;
         protected JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

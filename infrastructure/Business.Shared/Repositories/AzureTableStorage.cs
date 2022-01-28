@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public interface ITableStorage<T> where T : TableEntity
+    public interface ITableStorage<T> where T : Microsoft.Azure.Cosmos.Table.ITableEntity
     {
         Task<IEnumerable<T>> ReadItemsAsync(string partitionKey = null, EntityResolver<T> entityResolver = null);
         Task<T> ReadItemAsync(string rowId, string partitionKey = null, EntityResolver<T> entityResolver = null);
@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories
         Task<T> DeleteItemAsync(T item, string rowId = null, string partitionKey = null);
     }
 
-    public class AzureTableStorage<T> : ITableStorage<T> where T : BaseModel, new()
+    public class AzureTableStorage<T> : ITableStorage<T> where T : Abstractions.BaseEntity, new()
     {
         private const string AzureTableStorageConnectionString = "Azure:Storage:ConnectionString";
         

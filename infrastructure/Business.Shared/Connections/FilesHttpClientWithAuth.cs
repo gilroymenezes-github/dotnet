@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Connections
 {
-    public class FilesHttpClientWithAuth<T> : BaseHttpClientWithAuth<T> where T : FileModel
+    public class FilesHttpClientWithAuth<T> : BaseHttpClientWithAuth<T> where T : FileEntity
     {
        
         public FilesHttpClientWithAuth(

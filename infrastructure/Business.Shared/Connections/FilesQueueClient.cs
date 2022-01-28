@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Connections
 {
-    public class FilesQueueClient : BaseQueueClient<FileModel>
+    public class FilesQueueClient : BaseQueueClient<FileEntity>
     {
         public FilesQueueClient(
             IConfiguration configuration, 

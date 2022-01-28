@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Business.Shared.Abstractions
 {
-    public abstract class BaseQueueClient<T> : IAsyncDisposable where T: BaseModel
+    public abstract class BaseQueueClient<T> : IAsyncDisposable where T: BaseEntity
     {
         private const string AzureServiceBusConnectionString = "Azure:ServiceBus:ConnectionString";
         protected IConfiguration configuration;

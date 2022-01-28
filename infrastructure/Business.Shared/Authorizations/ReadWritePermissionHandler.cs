@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Authorizations
 {
-    public class ReadWritePermissionHandler<T> : AuthorizationHandler<OperationAuthorizationRequirement, T> where T : BaseModel
+    public class ReadWritePermissionHandler<T> : AuthorizationHandler<OperationAuthorizationRequirement, T> where T : BaseEntity
     {
         protected override Task HandleRequirementAsync(
             AuthorizationHandlerContext context, 

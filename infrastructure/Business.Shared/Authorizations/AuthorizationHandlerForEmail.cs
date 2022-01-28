@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Authorizations
 {
-    public class AuthorizationHandlerForEmail<T> : AuthorizationHandler<AuthorizationRequirementForEmail, T>  where T : BaseModel
+    public class AuthorizationHandlerForEmail<T> : AuthorizationHandler<AuthorizationRequirementForEmail, T>  where T : BaseEntity
     {
         protected override Task HandleRequirementAsync(
             AuthorizationHandlerContext context,

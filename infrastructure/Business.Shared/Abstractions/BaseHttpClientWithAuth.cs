@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Abstractions
 {
-    public abstract class BaseHttpClientWithAuth<T> : BaseHttpClient<T> where T: BaseModel
+    public abstract class BaseHttpClientWithAuth<T> : BaseHttpClient<T> where T: BaseEntity
     {
         protected AccessTokenClient authTokenService;
         protected AuthenticationStateProvider authStateProvider;
